@@ -10,46 +10,56 @@ export function PortalProgressJourney({ portal }: { portal: ClientPortalData }) 
   const current = portal.journeySteps.find((s) => s.current);
 
   return (
-    <section className="px-5 py-5">
+    <section className="px-5 py-4">
       <div className="mb-3 flex items-baseline justify-between">
         <h2 className="text-sm font-medium text-[#9CA3AF]">Jornada do serviço</h2>
         <motion.span
           className="text-lg font-bold tabular-nums text-[#06B6D4]"
           initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={
+            reduced
+              ? { opacity: 1 }
+              : { opacity: 1, scale: [1, 1.04, 1] }
+          }
+          transition={{ duration: 3, repeat: Infinity }}
         >
           {portal.progressPercent}%
         </motion.span>
       </div>
 
-      <motion.div className="relative overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <motion.div
+        className="relative h-2 overflow-hidden rounded-full bg-[#1F2937]"
+        aria-hidden
+      >
         <motion.div
-          className="absolute left-6 right-6 top-5 h-1 rounded-full bg-[#1F2937]"
-          aria-hidden
-        />
-        <motion.div
-          className="absolute left-6 top-5 h-1 rounded-full bg-gradient-to-r from-[#3B82F6] via-[#06B6D4] to-[#10B981]"
+          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#3B82F6] via-[#06B6D4] to-[#10B981]"
           initial={{ width: 0 }}
-          animate={{
-            width: `calc(${portal.progressPercent}% - 3rem)`,
-            maxWidth: "calc(100% - 3rem)",
-          }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          aria-hidden
+          animate={{ width: `${portal.progressPercent}%` }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         />
+        {!reduced && (
+          <motion.div
+            className="absolute inset-y-0 left-0 w-1/3 rounded-full bg-white/20 blur-sm"
+            animate={{ x: ["-20%", "120%"] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            style={{ width: `${portal.progressPercent}%` }}
+          />
+        )}
+      </motion.div>
 
+      <motion.div className="relative mt-6 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <ol className="relative flex min-w-max gap-0 px-1">
           {portal.journeySteps.map((step, i) => (
             <motion.li
               key={step.id}
-              className="flex w-[4.5rem] flex-col items-center sm:w-[5.5rem]"
+              className="flex w-[4.25rem] flex-col items-center sm:w-[5rem]"
               initial={reduced ? false : { opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * stagger }}
             >
               <motion.div
                 className={cn(
-                  "relative z-10 flex size-10 items-center justify-center rounded-2xl text-xs font-semibold transition-all",
+                  "relative z-10 flex size-9 items-center justify-center rounded-2xl text-xs font-semibold sm:size-10",
                   step.completed &&
                     "bg-gradient-to-br from-[#10B981] to-[#059669] text-[#0B0F19] shadow-lg shadow-[#10B981]/25",
                   step.current &&
@@ -60,7 +70,7 @@ export function PortalProgressJourney({ portal }: { portal: ClientPortalData }) 
                 )}
                 animate={
                   step.current && !reduced
-                    ? { scale: [1, 1.05, 1] }
+                    ? { scale: [1, 1.06, 1] }
                     : undefined
                 }
                 transition={{ duration: 2.5, repeat: Infinity }}
@@ -69,7 +79,7 @@ export function PortalProgressJourney({ portal }: { portal: ClientPortalData }) 
               </motion.div>
               <span
                 className={cn(
-                  "mt-2 text-center text-[10px] leading-tight sm:text-xs",
+                  "mt-2 text-center text-[10px] leading-tight",
                   step.current
                     ? "font-semibold text-[#F9FAFB]"
                     : step.completed

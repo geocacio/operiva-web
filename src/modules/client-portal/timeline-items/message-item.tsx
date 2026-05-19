@@ -3,16 +3,21 @@
 import { MessageCircle } from "lucide-react";
 import { useMotionConfig } from "@/hooks/use-motion";
 import type { PortalTimelineItem } from "@/types/portal";
-import { TimelineItemShell } from "./timeline-item-shell";
+import {
+  TimelineItemShell,
+  type FeedVisualWeight,
+} from "./timeline-item-shell";
 
 export function MessageItem({
   item,
   isLatest,
   delay,
+  visualWeight,
 }: {
   item: PortalTimelineItem;
   isLatest?: boolean;
   delay: number;
+  visualWeight?: FeedVisualWeight;
 }) {
   const { reduced } = useMotionConfig();
 
@@ -22,6 +27,7 @@ export function MessageItem({
       isLatest={isLatest}
       delay={delay}
       reduced={reduced}
+      visualWeight={visualWeight}
       accentClass="text-[#3B82F6]"
       icon={<MessageCircle className="size-5" />}
     >

@@ -3,18 +3,24 @@
 import { motion } from "framer-motion";
 import { Images } from "lucide-react";
 import { useMotionConfig } from "@/hooks/use-motion";
+import { PortalShimmer } from "../portal-shimmer";
 import type { PortalTimelineItem } from "@/types/portal";
-import { TimelineItemShell } from "./timeline-item-shell";
+import {
+  TimelineItemShell,
+  type FeedVisualWeight,
+} from "./timeline-item-shell";
 
 export function PhotoItem({
   item,
   isLatest,
   delay,
+  visualWeight,
   onOpenPhoto,
 }: {
   item: PortalTimelineItem;
   isLatest?: boolean;
   delay: number;
+  visualWeight?: FeedVisualWeight;
   onOpenPhoto: (photoIndex: number) => void;
 }) {
   const { reduced } = useMotionConfig();
@@ -26,6 +32,8 @@ export function PhotoItem({
       isLatest={isLatest}
       delay={delay}
       reduced={reduced}
+      prominent
+      visualWeight={visualWeight}
       accentClass="text-[#3B82F6]"
       icon={<Images className="size-5" />}
     >
@@ -45,6 +53,7 @@ export function PhotoItem({
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: delay + i * 0.05 }}
             >
+              <PortalShimmer className="size-full">
               <motion.div
                 className="size-full"
                 style={{ background: photo.gradient }}
@@ -56,6 +65,7 @@ export function PhotoItem({
                   </span>
                 </span>
               </motion.div>
+              </PortalShimmer>
             </motion.button>
           ))}
         </div>

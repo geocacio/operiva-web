@@ -3,16 +3,21 @@
 import { Shield } from "lucide-react";
 import { useMotionConfig } from "@/hooks/use-motion";
 import type { PortalTimelineItem } from "@/types/portal";
-import { TimelineItemShell } from "./timeline-item-shell";
+import {
+  TimelineItemShell,
+  type FeedVisualWeight,
+} from "./timeline-item-shell";
 
 export function ApprovalItem({
   item,
   isLatest,
   delay,
+  visualWeight,
 }: {
   item: PortalTimelineItem;
   isLatest?: boolean;
   delay: number;
+  visualWeight?: FeedVisualWeight;
 }) {
   const { reduced } = useMotionConfig();
 
@@ -22,6 +27,8 @@ export function ApprovalItem({
       isLatest={isLatest}
       delay={delay}
       reduced={reduced}
+      prominent
+      visualWeight={visualWeight}
       accentClass="text-[#F59E0B]"
       icon={<Shield className="size-5" />}
     >

@@ -50,16 +50,26 @@ function buildJourneySteps(current: PortalJourneyStep) {
   }));
 }
 
+function minutesAgo(m: number) {
+  return new Date(Date.now() - m * 60_000).toISOString();
+}
+
 const solarPortal: ClientPortalData = {
   token: "svc-194",
   serviceId: "s3",
   serviceTitle: "Instalação Solar #194",
   companyName: "Operiva Energia",
   responsibleName: "Carla Ribeiro",
+  serviceTheme: "solar",
+  teamActive: true,
+  liveActivity: {
+    teamMemberName: "Carlos",
+    actionLabel: "acabou de enviar uma atualização",
+  },
   currentJourneyStep: "aguardando_aprovacao",
   progressPercent: 85,
   statusLabel: "Quase lá — falta só sua aprovação no comissionamento",
-  lastUpdate: "2026-05-19T10:15:00Z",
+  lastUpdate: minutesAgo(8),
   journeySteps: buildJourneySteps("aguardando_aprovacao"),
   timeline: [
     {
@@ -68,8 +78,28 @@ const solarPortal: ClientPortalData = {
       title: "Sua aprovação no comissionamento",
       description:
         "Revise o vídeo e as fotos do inversor. A equipe aguarda seu ok para liberar a entrega.",
-      createdAt: "2026-05-19T10:15:00Z",
+      createdAt: minutesAgo(8),
       statusTone: "warning",
+      feedSize: "large",
+    },
+    {
+      id: "pt-s3-ba",
+      type: "antes_depois",
+      title: "Telhado antes e depois da montagem",
+      description: "Veja a transformação em poucos dias de obra.",
+      createdAt: minutesAgo(18),
+      authorName: "João (instalador)",
+      feedSize: "large",
+      beforeAfter: {
+        before: {
+          label: "Antes",
+          gradient: portalGradient("antes-telhado"),
+        },
+        after: {
+          label: "Depois",
+          gradient: portalGradient("depois-telhado"),
+        },
+      },
     },
     {
       id: "pt-s3-audio",
@@ -77,20 +107,23 @@ const solarPortal: ClientPortalData = {
       title: "Carla explica os testes finais",
       description:
         "Áudio de 28s sobre tensão na string e checklist antes do comissionamento.",
-      createdAt: "2026-05-19T09:30:00Z",
+      createdAt: minutesAgo(22),
       authorName: "Carla Ribeiro",
       audioDurationSeconds: 28,
+      feedSize: "large",
     },
     {
       id: "pt-s3-video",
       type: "video",
       title: "Inversor energizado — quadro CA",
       description: "12 segundos mostrando LEDs de operação e disjuntor dedicado.",
-      createdAt: "2026-05-18T14:05:00Z",
-      authorName: "Equipe campo",
+      createdAt: minutesAgo(95),
+      authorName: "Carlos Mendes",
       videoDurationSeconds: 12,
       videoGradient: portalGradient("solar-inversor"),
       videoPosterLabel: "Inversor híbrido · 8 kW",
+      videoProgress: 0.35,
+      feedSize: "large",
     },
     {
       id: "pt-s3-fotos",
@@ -99,6 +132,7 @@ const solarPortal: ClientPortalData = {
       description: "Arranjo completo das 12 placas — inclinação e fixação conferidas.",
       createdAt: "2026-05-17T11:20:00Z",
       authorName: "João (instalador)",
+      feedSize: "large",
       photos: [
         {
           id: "ph-s3-1",
@@ -125,11 +159,23 @@ const solarPortal: ClientPortalData = {
     {
       id: "pt-s3-marco1",
       type: "marco",
-      title: "Placas instaladas no telhado",
-      description: "Seu sistema está gerando — próximo passo: comissionamento do inversor.",
+      title: "Placas instaladas — seu sistema já gera energia",
+      description: "Etapa concluída com sucesso. Próximo passo: comissionamento.",
       createdAt: "2026-05-17T09:00:00Z",
       celebration: true,
-      emoji: "☀️",
+      emoji: "🎉",
+      momentVariant: "success",
+      feedSize: "large",
+    },
+    {
+      id: "pt-s3-marco2",
+      type: "marco",
+      title: "Equipe nos ajustes finais no local",
+      description: "Comissionamento do inversor em andamento — Carlos no telhado.",
+      createdAt: minutesAgo(45),
+      celebration: true,
+      emoji: "✨",
+      momentVariant: "finishing",
     },
     {
       id: "pt-s3-msg",
@@ -139,6 +185,7 @@ const solarPortal: ClientPortalData = {
         "Hoje finalizamos a montagem. Qualquer dúvida, responda por aqui — sem precisar ligar.",
       createdAt: "2026-05-17T07:15:00Z",
       authorName: "Carla Ribeiro",
+      feedSize: "compact",
     },
     {
       id: "pt-s3-etapa",
@@ -156,6 +203,7 @@ const solarPortal: ClientPortalData = {
         "GreenVolt confirmou escopo: 12 placas 550W + inversor híbrido 8 kW.",
       createdAt: "2026-05-12T07:00:00Z",
       statusTone: "info",
+      feedSize: "compact",
     },
   ],
   media: [
@@ -200,13 +248,23 @@ const solarPortal: ClientPortalData = {
       createdAt: "2026-05-19T09:45:00Z",
       stepLabel: "Comissionamento",
     },
+    {
+      id: "pm-s3-6",
+      type: "foto",
+      title: "Antes e depois — telhado",
+      gradient: portalGradient("gallery-ba"),
+      createdAt: minutesAgo(18),
+      stepLabel: "Transformação",
+    },
   ],
   pendingApproval: {
     id: "ap-s3-1",
     stepName: "Comissionamento do inversor",
     status: "pendente",
-    requestedAt: "2026-05-19T10:15:00Z",
+    requestedAt: minutesAgo(8),
     note: "Confirme se o disjuntor geral suporta a carga antes de aprovar a entrega.",
+    mediaGradient: portalGradient("solar-inversor"),
+    mediaLabel: "Vídeo do inversor energizado",
   },
 };
 
@@ -266,6 +324,8 @@ const portalByToken: Record<string, ClientPortalData> = {
   "svc-194": solarPortal,
 };
 
+const LIVE_TEAM = ["Carlos", "Carla", "João", "Marina"] as const;
+
 export function getMockPortal(token: string): ClientPortalData | null {
   if (portalByToken[token]) {
     return structuredClone(portalByToken[token]);
@@ -281,15 +341,22 @@ export function getMockPortal(token: string): ClientPortalData | null {
 export function mockAppendTimelineUpdate(
   portal: ClientPortalData
 ): PortalTimelineItem {
+  const member =
+    LIVE_TEAM[Math.floor(Math.random() * LIVE_TEAM.length)] ?? "Carlos";
   const item: PortalTimelineItem = {
     id: `pt-live-${Date.now()}`,
     type: "mensagem",
     title: "Nova atualização da equipe",
     description: "Tudo certo por aqui — continuamos no comissionamento.",
     createdAt: new Date().toISOString(),
-    authorName: portal.responsibleName,
+    authorName: member,
+    feedSize: "large",
   };
   portal.timeline.unshift(item);
   portal.lastUpdate = item.createdAt;
+  portal.liveActivity = {
+    teamMemberName: member,
+    actionLabel: "acabou de enviar uma atualização",
+  };
   return item;
 }

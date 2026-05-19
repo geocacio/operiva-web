@@ -4,6 +4,7 @@ import { AnimatePresence, motion, PanInfo } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { useMotionConfig } from "@/hooks/use-motion";
+import { springTransition } from "./portal-motion";
 import { cn } from "@/lib/utils";
 import type { PortalTimelinePhoto } from "@/types/portal";
 
@@ -115,7 +116,7 @@ export function PhotoLightbox({
                 initial={reduced ? false : { opacity: 0, scale: 0.96 }}
                 animate={{ opacity: 1, scale: zoomed ? 1.25 : 1 }}
                 exit={reduced ? undefined : { opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.25 }}
+                transition={springTransition}
               >
                 <div className="flex aspect-[4/5] min-h-[280px] flex-col items-center justify-center p-8 text-center sm:aspect-[3/4]">
                   <span className="text-4xl opacity-40">📷</span>

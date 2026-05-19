@@ -4,18 +4,23 @@ import { Mic } from "lucide-react";
 import { useMotionConfig } from "@/hooks/use-motion";
 import type { PortalTimelineItem } from "@/types/portal";
 import { AudioPlayer } from "../audio-player";
-import { TimelineItemShell } from "./timeline-item-shell";
+import {
+  TimelineItemShell,
+  type FeedVisualWeight,
+} from "./timeline-item-shell";
 
 export function AudioItem({
   item,
   isLatest,
   delay,
+  visualWeight,
   activeAudioId,
   onAudioPlay,
 }: {
   item: PortalTimelineItem;
   isLatest?: boolean;
   delay: number;
+  visualWeight?: FeedVisualWeight;
   activeAudioId: string | null;
   onAudioPlay: (id: string) => void;
 }) {
@@ -27,6 +32,8 @@ export function AudioItem({
       isLatest={isLatest}
       delay={delay}
       reduced={reduced}
+      prominent
+      visualWeight={visualWeight}
       accentClass="text-[#06B6D4]"
       icon={<Mic className="size-5" />}
     >

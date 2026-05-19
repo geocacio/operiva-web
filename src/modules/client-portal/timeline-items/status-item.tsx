@@ -4,7 +4,10 @@ import { CheckCircle2, CircleDot } from "lucide-react";
 import { useMotionConfig } from "@/hooks/use-motion";
 import { cn } from "@/lib/utils";
 import type { PortalTimelineItem } from "@/types/portal";
-import { TimelineItemShell } from "./timeline-item-shell";
+import {
+  TimelineItemShell,
+  type FeedVisualWeight,
+} from "./timeline-item-shell";
 
 const toneIcon = {
   neutral: CircleDot,
@@ -24,10 +27,12 @@ export function StatusItem({
   item,
   isLatest,
   delay,
+  visualWeight,
 }: {
   item: PortalTimelineItem;
   isLatest?: boolean;
   delay: number;
+  visualWeight?: FeedVisualWeight;
 }) {
   const { reduced } = useMotionConfig();
   const tone = item.statusTone ?? "neutral";
@@ -39,6 +44,8 @@ export function StatusItem({
       isLatest={isLatest}
       delay={delay}
       reduced={reduced}
+      prominent={item.type === "etapa"}
+      visualWeight={visualWeight}
       accentClass={toneClass[tone]}
       icon={<Icon className={cn("size-5", toneClass[tone])} />}
     >

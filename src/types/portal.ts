@@ -5,6 +5,8 @@ export type PortalJourneyStep =
   | "aguardando_aprovacao"
   | "finalizado";
 
+export type PortalServiceTheme = "solar" | "construction" | "vehicle" | "default";
+
 export type PortalMediaType = "foto" | "video" | "audio";
 
 export type PortalTimelineItemType =
@@ -15,7 +17,13 @@ export type PortalTimelineItemType =
   | "aprovacao"
   | "etapa"
   | "mensagem"
-  | "marco";
+  | "marco"
+  | "antes_depois";
+
+export interface PortalBeforeAfterPair {
+  label: string;
+  gradient: string;
+}
 
 export interface PortalTimelinePhoto {
   id: string;
@@ -44,12 +52,27 @@ export interface PortalTimelineItem {
   /** Celebration milestone (e.g. pintura concluída) */
   celebration?: boolean;
   emoji?: string;
+  /** Emotional micro-moment variant */
+  momentVariant?: "success" | "finishing" | "thanks";
   photos?: PortalTimelinePhoto[];
   videoDurationSeconds?: number;
   videoGradient?: string;
   videoPosterLabel?: string;
+  /** Mock watch progress 0–1 for thumbnail bar */
+  videoProgress?: number;
   audioDurationSeconds?: number;
   statusTone?: "neutral" | "success" | "info" | "warning";
+  beforeAfter?: {
+    before: PortalBeforeAfterPair;
+    after: PortalBeforeAfterPair;
+  };
+  /** Visual weight in feed — large for hero moments */
+  feedSize?: "large" | "compact";
+}
+
+export interface PortalLiveActivity {
+  teamMemberName: string;
+  actionLabel: string;
 }
 
 export interface PortalApproval {
@@ -58,6 +81,9 @@ export interface PortalApproval {
   status: "pendente" | "aprovado" | "ajuste_solicitado";
   requestedAt: string;
   note?: string;
+  /** Mock thumbnail for decision context */
+  mediaGradient?: string;
+  mediaLabel?: string;
 }
 
 export interface ClientPortalData {
@@ -67,6 +93,10 @@ export interface ClientPortalData {
   companyName: string;
   companyLogo?: string;
   responsibleName: string;
+  serviceTheme?: PortalServiceTheme;
+  teamActive?: boolean;
+  /** e.g. "Carlos acabou de enviar uma atualização" */
+  liveActivity?: PortalLiveActivity;
   currentJourneyStep: PortalJourneyStep;
   progressPercent: number;
   statusLabel: string;

@@ -70,11 +70,13 @@ const clientPortalSlice = createSlice({
       }));
       portal.timeline.unshift({
         id: newId("pt"),
-        type: "aprovacao",
-        title: "Você aprovou a etapa",
+        type: "marco",
+        title: "Obrigado pela aprovação",
         description: portal.pendingApproval.stepName,
         createdAt: new Date().toISOString(),
-        statusTone: "success",
+        celebration: true,
+        emoji: "✅",
+        momentVariant: "thanks",
       });
       state.lastActionFeedback = "Aprovação registrada. Obrigado pela confiança!";
     },
