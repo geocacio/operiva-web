@@ -1,0 +1,58 @@
+import type { ActivityItem } from "@/types";
+
+export const mockActivities: ActivityItem[] = [
+  {
+    id: "a1",
+    userId: "u2",
+    userName: "Bruno Mendes",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Bruno",
+    action: "enviou foto em",
+    target: "Oficina Prime",
+    createdAt: "2026-05-19T11:45:00Z",
+  },
+  {
+    id: "a2",
+    userId: "u3",
+    userName: "Carla Ribeiro",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Carla",
+    action: "solicitou aprovação em",
+    target: "Instalação Solar #194",
+    createdAt: "2026-05-19T10:15:00Z",
+  },
+  {
+    id: "a3",
+    userId: "u4",
+    userName: "Diego Alves",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Diego",
+    action: "concluiu etapa em",
+    target: "Obra Residencial Silva",
+    createdAt: "2026-05-19T09:30:00Z",
+  },
+  {
+    id: "a4",
+    userId: "u5",
+    userName: "Elena Souza",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Elena",
+    action: "comentou em",
+    target: "Cozinha MPN",
+    createdAt: "2026-05-18T17:20:00Z",
+  },
+  {
+    id: "a5",
+    userId: "u6",
+    userName: "Felipe Nunes",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Felipe",
+    action: "encerrou",
+    target: "Pintura Finalizada",
+    createdAt: "2026-05-15T14:00:00Z",
+  },
+  {
+    id: "a6",
+    userId: "u1",
+    userName: "Ana Costa",
+    userAvatar: "https://api.dicebear.com/9.x/avataaars/svg?seed=Ana",
+    action: "criou serviço",
+    target: "Fibra residencial bloco B",
+    createdAt: "2026-05-18T15:00:00Z",
+  },
+];
