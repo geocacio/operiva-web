@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { TeamView } from "@/modules/team/team-view";
+import { ManagementTeamView } from "@/modules/management/team-view";
 
 export const metadata = {
   title: "Equipe — Operiva",
@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function EquipePage() {
   return (
-    <AppShell title="Equipe" subtitle="Times e disponibilidade">
-      <TeamView />
+    <AppShell title="Equipe" subtitle="Times, disponibilidade e campo">
+      <ManagementTeamView />
     </AppShell>
   );
 }

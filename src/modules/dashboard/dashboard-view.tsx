@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
+import { ExternalLink, Play } from "lucide-react";
 import { ActivityFeed } from "@/components/shared/activity-feed";
+import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import { AlertsPanel } from "@/components/shared/alerts-panel";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { OperationalCard } from "@/components/shared/operational-card";
@@ -34,8 +37,38 @@ export function DashboardView() {
   const completed = services.filter((s) => s.status === "concluido");
   const loading = dashLoading || servicesLoading;
 
+  const featured = services.find((s) => s.id === "s3");
+
   return (
     <div className="space-y-6">
+      {featured && (
+        <section className="rounded-xl border border-[#3B82F6]/20 bg-gradient-to-r from-[#111827] to-[#0B0F19] p-4 sm:p-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-[#06B6D4]">
+            Destaque operacional
+          </p>
+          <h2 className="mt-1 text-lg font-semibold">{featured.title}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {featured.clientName} · {featured.progress}% concluído
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Link
+              href={getExecutionHref(featured.id)}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#3B82F6] px-4 py-2 text-sm font-medium text-white hover:bg-[#2563EB]"
+            >
+              <Play className="size-4" />
+              Abrir execução
+            </Link>
+            <Link
+              href={getPortalHref(featured.id)}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-[#10B981]/30 bg-[#10B981]/10 px-4 py-2 text-sm font-medium text-[#10B981] hover:bg-[#10B981]/20"
+            >
+              <ExternalLink className="size-4" />
+              Ver como cliente
+            </Link>
+          </div>
+        </section>
+      )}
+
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => (

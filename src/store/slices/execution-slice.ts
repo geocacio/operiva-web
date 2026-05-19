@@ -117,6 +117,17 @@ const executionSlice = createSlice({
       });
       state.lastActionFeedback = "Vídeo adicionado à timeline";
     },
+    addAudio(state, action: PayloadAction<{ serviceId: string }>) {
+      const ex = state.byServiceId[action.payload.serviceId];
+      if (!ex) return;
+
+      pushTimeline(ex, {
+        type: "audio",
+        title: "Áudio enviado",
+        description: "Mensagem de voz de 18s registrada no serviço.",
+      });
+      state.lastActionFeedback = "Áudio enviado com sucesso";
+    },
     requestApproval(
       state,
       action: PayloadAction<{ serviceId: string; note?: string }>
@@ -234,6 +245,7 @@ export const {
   completeStep,
   addPhoto,
   addVideo,
+  addAudio,
   requestApproval,
   reportProblem,
   pauseService,

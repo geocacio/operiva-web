@@ -3,7 +3,7 @@
 import { useReducedMotion } from "framer-motion";
 
 export function useMotionConfig() {
-  const reduced = useReducedMotion();
+  const reduced = useReducedMotion() ?? false;
 
   return {
     reduced,

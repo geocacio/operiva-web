@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/app-shell";
-import { DashboardView } from "@/modules/dashboard/dashboard-view";
+import { ManagementDashboardView } from "@/modules/management/dashboard-view";
 
 export const metadata = {
   title: "Dashboard — Operiva",
@@ -11,7 +11,7 @@ export default function DashboardPage() {
       title="Dashboard"
       subtitle="Visão operacional em tempo real (simulado)"
     >
-      <DashboardView />
+      <ManagementDashboardView />
     </AppShell>
   );
 }

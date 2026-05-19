@@ -7,11 +7,13 @@ import teamReducer from "./slices/team-slice";
 import timelineReducer from "./slices/timeline-slice";
 import uiReducer from "./slices/ui-slice";
 import executionReducer from "./slices/execution-slice";
+import clientPortalReducer from "./slices/client-portal-slice";
 
 export const store = configureStore({
   reducer: {
     services: servicesReducer,
     execution: executionReducer,
+    clientPortal: clientPortalReducer,
     notifications: notificationsReducer,
     dashboard: dashboardReducer,
     timeline: timelineReducer,

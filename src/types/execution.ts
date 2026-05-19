@@ -2,6 +2,7 @@ export type ExecutionEventType =
   | "etapa"
   | "foto"
   | "video"
+  | "audio"
   | "status"
   | "comentario"
   | "problema"

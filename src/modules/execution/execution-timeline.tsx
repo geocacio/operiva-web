@@ -23,6 +23,7 @@ const typeConfig: Record<
   etapa: { icon: CheckCircle2, className: "text-[#10B981] bg-[#10B981]/10" },
   foto: { icon: Camera, className: "text-[#3B82F6] bg-[#3B82F6]/10" },
   video: { icon: Video, className: "text-[#06B6D4] bg-[#06B6D4]/10" },
+  audio: { icon: Video, className: "text-[#06B6D4] bg-[#06B6D4]/10" },
   status: { icon: CheckCircle2, className: "text-[#06B6D4] bg-[#06B6D4]/10" },
   comentario: {
     icon: MessageSquare,

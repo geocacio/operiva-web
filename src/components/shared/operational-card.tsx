@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Calendar, ChevronRight } from "lucide-react";
+import { Calendar, ChevronRight, ExternalLink } from "lucide-react";
+import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import { GlassCard } from "@/components/shared/glass-card";
 import { PriorityBadge } from "@/components/shared/priority-badge";
 import { ProgressBar } from "@/components/shared/progress-bar";
@@ -61,12 +62,22 @@ export function OperationalCard({
         </div>
       </div>
 
-      <Link
-        href={`/app/servicos/${service.id}/execucao`}
-        className="mt-3 flex items-center gap-1 text-xs text-[#3B82F6] opacity-0 transition-opacity group-hover:opacity-100"
-      >
-        Modo profissional <ChevronRight className="size-3" />
-      </Link>
+      <div className="mt-3 flex flex-wrap gap-3 opacity-0 transition-opacity group-hover:opacity-100">
+        {service.status !== "concluido" && (
+          <Link
+            href={getExecutionHref(service.id)}
+            className="flex items-center gap-1 text-xs text-[#3B82F6]"
+          >
+            Abrir execução <ChevronRight className="size-3" />
+          </Link>
+        )}
+        <Link
+          href={getPortalHref(service.id)}
+          className="flex items-center gap-1 text-xs text-[#10B981]"
+        >
+          Portal do cliente <ExternalLink className="size-3" />
+        </Link>
+      </div>
     </GlassCard>
   );
 }

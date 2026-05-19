@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fakeApi } from "@/lib/fake-api";
-import type { Service } from "@/types";
+import type { Priority, Service, ServiceStatus } from "@/types";
 
 interface ServicesState {
   items: Service[];
   loading: boolean;
   error: string | null;
   filter: string;
+  statusFilter: ServiceStatus | "todos";
+  priorityFilter: Priority | "todos";
+  viewMode: "lista" | "kanban";
 }
 
 const initialState: ServicesState = {
@@ -14,6 +17,9 @@ const initialState: ServicesState = {
   loading: false,
   error: null,
   filter: "",
+  statusFilter: "todos",
+  priorityFilter: "todos",
+  viewMode: "lista",
 };
 
 export const fetchServices = createAsyncThunk(
@@ -27,6 +33,15 @@ const servicesSlice = createSlice({
   reducers: {
     setFilter(state, action: { payload: string }) {
       state.filter = action.payload;
+    },
+    setStatusFilter(state, action: { payload: ServiceStatus | "todos" }) {
+      state.statusFilter = action.payload;
+    },
+    setPriorityFilter(state, action: { payload: Priority | "todos" }) {
+      state.priorityFilter = action.payload;
+    },
+    setViewMode(state, action: { payload: "lista" | "kanban" }) {
+      state.viewMode = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -46,5 +61,6 @@ const servicesSlice = createSlice({
   },
 });
 
-export const { setFilter } = servicesSlice.actions;
+export const { setFilter, setStatusFilter, setPriorityFilter, setViewMode } =
+  servicesSlice.actions;
 export default servicesSlice.reducer;

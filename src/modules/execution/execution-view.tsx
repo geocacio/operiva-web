@@ -7,29 +7,28 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useMotionConfig } from "@/hooks/use-motion";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
+  addAudio,
   addPhoto,
   addVideo,
   clearActionFeedback,
   completeStep,
   fetchExecution,
-  pauseService,
   reportProblem,
   requestApproval,
-  resumeService,
 } from "@/store/slices/execution-slice";
 import { fetchServices } from "@/store/slices/services-slice";
-import { ClientStatusBlock } from "./client-status-block";
-import { CurrentStepBlock } from "./current-step-block";
-import { ExecutionHeader } from "./execution-header";
-import { ExecutionTimeline } from "./execution-timeline";
 import {
-  PauseServiceModal,
+  ExecutionBottomBar,
+  type BottomActionId,
+} from "./execution-bottom-bar";
+import { ExecutionHeroStep } from "./execution-hero-step";
+import { ExecutionMinimalHeader } from "./execution-minimal-header";
+import { ExecutionRecentTimeline } from "./execution-recent-timeline";
+import { ExecutionUploadPreview } from "./execution-upload-preview";
+import {
   ReportProblemModal,
   RequestApprovalModal,
 } from "./execution-modals";
-import { MinimalComms } from "./minimal-comms";
-import { QuickActions, type QuickActionId } from "./quick-actions";
-import { QuickUpload } from "./quick-upload";
 
 export function ExecutionView({ serviceId }: { serviceId: string }) {
   const dispatch = useAppDispatch();
@@ -43,9 +42,7 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
   const loading = useAppSelector((s) => s.execution.loading);
   const feedback = useAppSelector((s) => s.execution.lastActionFeedback);
 
-  const [modal, setModal] = useState<
-    "problem" | "approval" | "pause" | null
-  >(null);
+  const [modal, setModal] = useState<"problem" | "approval" | null>(null);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -54,7 +51,7 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
 
   useEffect(() => {
     if (!feedback) return;
-    const t = setTimeout(() => dispatch(clearActionFeedback()), 3200);
+    const t = setTimeout(() => dispatch(clearActionFeedback()), 2800);
     return () => clearTimeout(t);
   }, [dispatch, feedback]);
 
@@ -64,12 +61,13 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
     return Math.round((done / execution.steps.length) * 100);
   }, [execution]);
 
-  const handleFinishStep = useCallback(() => {
-    dispatch(completeStep({ serviceId }));
-  }, [dispatch, serviceId]);
+  const handleBottomAction = useCallback(
+    (id: BottomActionId) => {
+      if (!execution || execution.paused) {
+        if (id === "problem") setModal("problem");
+        return;
+      }
 
-  const handleQuickAction = useCallback(
-    (id: QuickActionId) => {
       switch (id) {
         case "complete":
           dispatch(completeStep({ serviceId }));
@@ -85,111 +83,83 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
         case "video":
           dispatch(addVideo({ serviceId }));
           break;
+        case "audio":
+          dispatch(addAudio({ serviceId }));
+          break;
         case "approval":
           setModal("approval");
           break;
         case "problem":
           setModal("problem");
           break;
-        case "pause":
-          setModal("pause");
-          break;
       }
     },
-    [dispatch, serviceId]
+    [dispatch, execution, serviceId]
   );
 
   if (loading && !execution) {
     return (
-      <motion.div className="space-y-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <Skeleton className="h-24 w-full rounded-xl bg-[#1F2937]" />
-        <Skeleton className="h-40 w-full rounded-xl bg-[#1F2937]" />
-        <motion.div className="grid grid-cols-2 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-20 rounded-xl bg-[#1F2937]" />
-          ))}
-        </motion.div>
+      <motion.div className="min-h-dvh bg-[#0B0F19] p-4">
+        <Skeleton className="h-20 w-full rounded-xl bg-[#1F2937]" />
+        <Skeleton className="mt-6 h-48 w-full rounded-2xl bg-[#1F2937]" />
+        <Skeleton className="mt-6 h-32 w-full rounded-xl bg-[#1F2937]" />
       </motion.div>
     );
   }
 
   if (!execution || !service) {
     return (
-      <motion.div
-        className="rounded-xl border border-[#1F2937] bg-[#111827] p-8 text-center"
-        initial={reduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <p className="text-[#F9FAFB]">Serviço não encontrado.</p>
-        <button
-          type="button"
-          onClick={() => router.push("/app/servicos")}
-          className="mt-4 text-sm text-[#3B82F6] hover:underline"
-        >
-          Voltar para serviços
-        </button>
-      </motion.div>
+      <div className="flex min-h-dvh items-center justify-center bg-[#0B0F19] p-6">
+        <div className="text-center">
+          <p className="text-[#F9FAFB]">Serviço não encontrado.</p>
+          <button
+            type="button"
+            onClick={() => router.push("/app/servicos")}
+            className="mt-4 text-sm text-[#3B82F6] hover:underline"
+          >
+            Voltar para serviços
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <motion.div
-      className="min-h-full bg-[#0B0F19] text-[#F9FAFB]"
-      initial={reduced ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <ExecutionHeader
+    <div className="min-h-dvh bg-[#0B0F19] pb-28 text-[#F9FAFB]">
+      <ExecutionMinimalHeader
         service={service}
         estimatedMinutesRemaining={execution.estimatedMinutesRemaining}
         paused={execution.paused}
-        onFinishStep={handleFinishStep}
+        progressPercent={progressPercent}
       />
 
       <AnimatePresence>
         {feedback && (
           <motion.div
             role="status"
-            className="mx-auto mt-3 max-w-lg rounded-lg border border-[#10B981]/30 bg-[#10B981]/15 px-4 py-2.5 text-center text-sm text-[#10B981]"
-            initial={{ opacity: 0, y: -8 }}
+            className="mx-4 mt-3 rounded-lg border border-[#10B981]/30 bg-[#10B981]/15 px-4 py-2 text-center text-sm text-[#10B981]"
+            initial={reduced ? false : { opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            exit={{ opacity: 0 }}
           >
             {feedback}
           </motion.div>
         )}
       </AnimatePresence>
 
-      <motion.div
-        className="mt-6 space-y-6 pb-8 lg:grid lg:grid-cols-[1fr_340px] lg:items-start lg:gap-6 lg:space-y-0"
-        initial={reduced ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.1 }}
-      >
-        <div className="space-y-6">
-          <ClientStatusBlock status={execution.clientStatus} />
-          <CurrentStepBlock
-            steps={execution.steps}
-            currentStepIndex={execution.currentStepIndex}
-            progressPercent={progressPercent}
-          />
-          <QuickActions
-            paused={execution.paused}
-            onAction={handleQuickAction}
-          />
-          <QuickUpload
-            uploads={execution.uploads}
-            disabled={execution.paused}
-            onUpload={(fileName) =>
-              dispatch(addPhoto({ serviceId, fileName }))
-            }
-          />
-        </div>
+      <ExecutionHeroStep
+        steps={execution.steps}
+        currentStepIndex={execution.currentStepIndex}
+        progressPercent={progressPercent}
+      />
 
-        <div className="space-y-6 lg:sticky lg:top-24">
-          <ExecutionTimeline events={execution.timeline} />
-          <MinimalComms messages={execution.messages} />
-        </div>
-      </motion.div>
+      <ExecutionUploadPreview uploads={execution.uploads} />
+      <ExecutionRecentTimeline events={execution.timeline} />
+
+      <ExecutionBottomBar
+        paused={execution.paused}
+        onAction={handleBottomAction}
+      />
 
       <ReportProblemModal
         open={modal === "problem"}
@@ -205,13 +175,6 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
           dispatch(requestApproval({ serviceId, note: note || undefined }))
         }
       />
-      <PauseServiceModal
-        open={modal === "pause"}
-        onOpenChange={(o) => !o && setModal(null)}
-        isPaused={execution.paused}
-        onConfirm={(reason) => dispatch(pauseService({ serviceId, reason }))}
-        onResume={() => dispatch(resumeService({ serviceId }))}
-      />
-    </motion.div>
+    </div>
   );
 }

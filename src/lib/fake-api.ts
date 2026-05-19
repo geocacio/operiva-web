@@ -10,8 +10,10 @@ import {
   mockUsers,
   mockWeeklyChart,
   getMockExecution,
+  getMockPortal,
 } from "@/mocks";
 import type { ServiceExecution } from "@/types/execution";
+import type { ClientPortalData } from "@/types/portal";
 import type {
   ActivityItem,
   ChartDataPoint,
@@ -40,6 +42,27 @@ export const fakeApi = {
   },
   getExecution: (serviceId: string) =>
     simulate<ServiceExecution>(getMockExecution(serviceId)),
+  getClientPortal: (token: string) => {
+    const data = getMockPortal(token);
+    if (!data) return Promise.reject(new Error("Portal não encontrado"));
+    return simulate<ClientPortalData>(data);
+  },
+  approvePortalStep: async (token: string) => {
+    await delay(300);
+    const data = getMockPortal(token);
+    if (data?.pendingApproval) data.pendingApproval.status = "aprovado";
+    return true;
+  },
+  requestPortalAdjustment: async (token: string, _message: string) => {
+    await delay(300);
+    const data = getMockPortal(token);
+    if (data?.pendingApproval) data.pendingApproval.status = "ajuste_solicitado";
+    return true;
+  },
+  completeExecutionStep: async (serviceId: string) => {
+    await delay(200);
+    return getMockExecution(serviceId);
+  },
   getUsers: () => simulate<User[]>(mockUsers),
   getTeams: () => simulate<Team[]>(mockTeams),
   getClients: () => simulate<Client[]>(mockClients),

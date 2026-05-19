@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Play } from "lucide-react";
+import { ExternalLink, Play } from "lucide-react";
 import { GlassCard } from "@/components/shared/glass-card";
 import { PriorityBadge } from "@/components/shared/priority-badge";
 import { ProgressBar } from "@/components/shared/progress-bar";
@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { mockUsers } from "@/mocks";
 import { formatDate } from "@/lib/format";
+import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import type { Service } from "@/types";
 
 export function ServicesTable({
@@ -33,7 +34,7 @@ export function ServicesTable({
   return (
     <GlassCard className="overflow-hidden p-0">
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[720px] text-sm">
+        <table className="w-full min-w-[860px] text-sm">
           <thead>
             <tr className="border-b border-white/8 text-left text-xs text-muted-foreground">
               <th className="px-4 py-3 font-medium">Serviço</th>
@@ -43,7 +44,7 @@ export function ServicesTable({
               <th className="px-4 py-3 font-medium">Responsável</th>
               <th className="px-4 py-3 font-medium w-40">Progresso</th>
               <th className="px-4 py-3 font-medium">Prazo</th>
-              <th className="px-4 py-3 font-medium w-28">Ação</th>
+              <th className="px-4 py-3 font-medium w-44">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -75,17 +76,24 @@ export function ServicesTable({
                     {formatDate(s.dueDate)}
                   </td>
                   <td className="px-4 py-3">
-                    {s.status !== "concluido" ? (
+                    <div className="flex flex-col gap-1.5">
+                      {s.status !== "concluido" && (
+                        <Link
+                          href={getExecutionHref(s.id)}
+                          className="inline-flex items-center gap-1 rounded-lg bg-[#3B82F6]/15 px-2.5 py-1.5 text-xs font-medium text-[#3B82F6] transition-colors hover:bg-[#3B82F6]/25"
+                        >
+                          <Play className="size-3" />
+                          Abrir execução
+                        </Link>
+                      )}
                       <Link
-                        href={`/app/servicos/${s.id}/execucao`}
-                        className="inline-flex items-center gap-1 rounded-lg bg-[#3B82F6]/15 px-2.5 py-1.5 text-xs font-medium text-[#3B82F6] transition-colors hover:bg-[#3B82F6]/25"
+                        href={getPortalHref(s.id)}
+                        className="inline-flex items-center gap-1 rounded-lg bg-[#10B981]/10 px-2.5 py-1.5 text-xs font-medium text-[#10B981] transition-colors hover:bg-[#10B981]/20"
                       >
-                        <Play className="size-3" />
-                        Executar
+                        <ExternalLink className="size-3" />
+                        Ver como cliente
                       </Link>
-                    ) : (
-                      <span className="text-xs text-muted-foreground">—</span>
-                    )}
+                    </div>
                   </td>
                 </tr>
               );
