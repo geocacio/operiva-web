@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Loader2, Play } from "lucide-react";
 import { ConfigBreadcrumbs } from "@/components/operiva/config-breadcrumbs";
+import { ConfigLoadingSkeleton } from "@/components/operiva/config-loading-skeleton";
 import { ConfigWizardNav } from "@/components/operiva/config-wizard-nav";
 import { IconByName } from "@/components/operiva/icon-by-name";
 import { GlassCard } from "@/components/shared/glass-card";
@@ -20,9 +21,13 @@ export function FlowPreviewView({ templateId }: { templateId: string }) {
   const { reduced } = useMotionConfig();
   const [simIndex, setSimIndex] = useState(0);
   const [simulating, setSimulating] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(loadTemplateForEdit(templateId));
+    const t = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(t);
   }, [dispatch, templateId]);
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export function FlowPreviewView({ templateId }: { templateId: string }) {
     return () => clearInterval(t);
   }, [simulating, draft]);
 
-  if (!draft) return <p className="text-muted-foreground">Carregando…</p>;
+  if (loading || !draft) return <ConfigLoadingSkeleton />;
 
   return (
     <div>

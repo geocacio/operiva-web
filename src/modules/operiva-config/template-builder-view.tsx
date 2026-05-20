@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Save } from "lucide-react";
 import { ConfigBreadcrumbs } from "@/components/operiva/config-breadcrumbs";
+import { ConfigLoadingSkeleton } from "@/components/operiva/config-loading-skeleton";
 import { ConfigWizardNav } from "@/components/operiva/config-wizard-nav";
 import { BuilderFlowCanvas } from "@/components/operiva/builder-flow-canvas";
 import { BuilderStepPanel } from "@/components/operiva/builder-step-panel";
 import { BuilderStepSidebar } from "@/components/operiva/builder-step-sidebar";
 import { Button } from "@/components/ui/button";
 import { CONFIG_ROUTES } from "@/lib/constants";
+import { getRolesForNiche } from "@/mocks/config-teams";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   addDraftStep,
@@ -28,9 +30,13 @@ export function TemplateBuilderView({ templateId }: { templateId: string }) {
   const router = useRouter();
   const draft = useAppSelector((s) => s.template.draftTemplate);
   const [selectedStepId, setSelectedStepId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(loadTemplateForEdit(templateId));
+    const t = setTimeout(() => setLoading(false), 350);
+    return () => clearTimeout(t);
   }, [dispatch, templateId]);
 
   useEffect(() => {
@@ -39,8 +45,8 @@ export function TemplateBuilderView({ templateId }: { templateId: string }) {
     }
   }, [draft, selectedStepId]);
 
-  if (!draft) {
-    return <p className="text-muted-foreground">Carregando template…</p>;
+  if (loading || !draft) {
+    return <ConfigLoadingSkeleton variant="builder" />;
   }
 
   const selectedStep =
@@ -96,6 +102,8 @@ export function TemplateBuilderView({ templateId }: { templateId: string }) {
         />
         <BuilderStepPanel
           step={selectedStep}
+          allSteps={draft.steps}
+          roles={getRolesForNiche(draft.nicheId)}
           onChange={(step) => dispatch(updateDraftStep(step))}
         />
       </div>

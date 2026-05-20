@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { ExternalLink, Play, Workflow } from "lucide-react";
-import { CONFIG_ROUTES } from "@/lib/constants";
+import { APP_ROUTES, TEMPLATE_ROUTES } from "@/lib/constants";
 import { ActivityFeed } from "@/components/shared/activity-feed";
 import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import { AlertsPanel } from "@/components/shared/alerts-panel";
@@ -53,11 +53,11 @@ export function DashboardView() {
           Funilaria ou construção civil — templates, builder, equipe e portal do cliente.
         </p>
         <Link
-          href={CONFIG_ROUTES.hub}
-          className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
+          href={TEMPLATE_ROUTES.library}
+          className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#3B82F6] px-4 py-2 text-sm font-medium text-white hover:bg-[#2563EB]"
         >
           <Workflow className="size-4" />
-          Abrir configuração
+          Ver templates
         </Link>
       </section>
 

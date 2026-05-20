@@ -3,7 +3,8 @@ export type ServiceStatus =
   | "aguardando_aprovacao"
   | "atrasado"
   | "concluido"
-  | "em_analise";
+  | "em_analise"
+  | "cancelado";
 
 export type Priority = "alta" | "media" | "baixa";
 

@@ -8,12 +8,15 @@ import { ConfigBreadcrumbs } from "@/components/operiva/config-breadcrumbs";
 import { TemplateCard } from "@/components/operiva/template-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { CONFIG_ROUTES } from "@/lib/constants";
+import { APP_ROUTES, TEMPLATE_ROUTES } from "@/lib/constants";
+import { loadCustomTemplates } from "@/lib/template-draft-storage";
 import { getNicheById } from "@/mocks/niches";
 import { store } from "@/store";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { setSelectedNiche } from "@/store/slices/niche-slice";
 import {
   duplicateTemplateById,
+  hydrateCustomTemplates,
   selectTemplate,
   setLibraryLoading,
 } from "@/store/slices/template-slice";
@@ -23,7 +26,12 @@ export function TemplateLibraryView() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const params = useSearchParams();
-  const nicheParam = (params.get("nicho") ?? "funilaria") as NicheId;
+  const selectedNiche = useAppSelector((s) => s.niche.selectedNiche);
+  const companyNiche = useAppSelector((s) => s.company.nicheId);
+  const nicheParam = (params.get("nicho") ??
+    companyNiche ??
+    selectedNiche ??
+    "funilaria") as NicheId;
   const loading = useAppSelector((s) => s.template.libraryLoading);
   const templates = useAppSelector((s) => s.template.templates);
 
@@ -34,6 +42,14 @@ export function TemplateLibraryView() {
   );
 
   useEffect(() => {
+    dispatch(hydrateCustomTemplates(loadCustomTemplates()));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setSelectedNiche(nicheParam));
+  }, [dispatch, nicheParam]);
+
+  useEffect(() => {
     dispatch(setLibraryLoading(true));
     const t = setTimeout(() => dispatch(setLibraryLoading(false)), 500);
     return () => clearTimeout(t);
@@ -41,20 +57,20 @@ export function TemplateLibraryView() {
 
   const handleUse = (id: string) => {
     dispatch(selectTemplate(id));
-    router.push(`${CONFIG_ROUTES.newService}?template=${id}`);
+    router.push(`${APP_ROUTES.novoServico}?template=${id}`);
   };
 
   const handleDuplicate = (id: string) => {
     dispatch(duplicateTemplateById(id));
     const newId = store.getState().template.activeTemplateId;
-    if (newId) router.push(CONFIG_ROUTES.templateEdit(newId));
+    if (newId) router.push(TEMPLATE_ROUTES.templateEdit(newId));
   };
 
   return (
     <div>
       <ConfigBreadcrumbs
         items={[
-          { label: "Nicho", href: CONFIG_ROUTES.niche },
+          { label: "Templates", href: TEMPLATE_ROUTES.library },
           { label: niche?.name ?? nicheParam },
         ]}
       />
@@ -66,7 +82,7 @@ export function TemplateLibraryView() {
           </p>
         </div>
         <Button asChild variant="outline" className="gap-2 border-white/10">
-          <Link href={`${CONFIG_ROUTES.templateNew}?nicho=${nicheParam}`}>
+          <Link href={`${TEMPLATE_ROUTES.templateNew}?nicho=${nicheParam}`}>
             <Plus className="size-4" />
             Criar do zero
           </Link>

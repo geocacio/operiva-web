@@ -5,6 +5,7 @@ import { ArrowLeft, Clock } from "lucide-react";
 import { motion } from "framer-motion";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { ProgressBar } from "@/components/shared/progress-bar";
+import { ShareTrackingLink } from "@/components/operiva/share-tracking-link";
 import { useMotionConfig } from "@/hooks/use-motion";
 import type { Service } from "@/types";
 
@@ -72,6 +73,9 @@ export function ExecutionMinimalHeader({
         barClassName="from-[#3B82F6] to-[#06B6D4]"
         showLabel={false}
       />
+      <div className="mt-3">
+        <ShareTrackingLink serviceId={service.id} />
+      </div>
     </motion.header>
   );
 }

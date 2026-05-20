@@ -10,6 +10,8 @@ import executionReducer from "./slices/execution-slice";
 import clientPortalReducer from "./slices/client-portal-slice";
 import nicheReducer from "./slices/niche-slice";
 import templateReducer from "./slices/template-slice";
+import companyReducer from "./slices/company-slice";
+import portalSessionReducer from "./slices/portal-session-slice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +20,8 @@ export const store = configureStore({
     clientPortal: clientPortalReducer,
     niche: nicheReducer,
     template: templateReducer,
+    company: companyReducer,
+    portalSession: portalSessionReducer,
     notifications: notificationsReducer,
     dashboard: dashboardReducer,
     timeline: timelineReducer,

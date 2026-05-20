@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BarChart3,
   Briefcase,
   Building2,
-  GitBranch,
+  Layers,
   LayoutDashboard,
   Settings,
   Users,
-  Workflow,
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,10 +18,11 @@ import { APP_NAV } from "@/lib/constants";
 const iconMap = {
   LayoutDashboard,
   Briefcase,
-  Workflow,
-  GitBranch,
+  Layers,
+  Zap,
   Users,
   Building2,
+  BarChart3,
   Settings,
 } as const;
 
@@ -36,7 +37,7 @@ export function AppSidebar({ collapsed }: { collapsed?: boolean }) {
       )}
     >
       <div className="flex h-14 items-center gap-2 border-b border-white/8 px-4">
-        <div className="flex size-8 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400">
+        <div className="flex size-8 items-center justify-center rounded-lg bg-[#3B82F6]/20 text-[#3B82F6]">
           <Zap className="size-4" />
         </div>
         {!collapsed && (
@@ -61,7 +62,7 @@ export function AppSidebar({ collapsed }: { collapsed?: boolean }) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all",
                 active
-                  ? "bg-indigo-500/15 text-indigo-200 shadow-[0_0_20px_oklch(0.55_0.2_264/15%)]"
+                  ? "bg-[#3B82F6]/15 text-[#93C5FD] shadow-[0_0_20px_rgba(59,130,246,0.15)]"
                   : "text-muted-foreground hover:bg-white/5 hover:text-foreground",
                 collapsed && "justify-center px-2"
               )}

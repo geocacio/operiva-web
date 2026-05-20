@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { CONFIG_ROUTES } from "@/lib/constants";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 
 export function ConfigBreadcrumbs({
   items,
@@ -11,7 +11,7 @@ export function ConfigBreadcrumbs({
 }) {
   return (
     <nav className="mb-4 flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
-      <Link href={CONFIG_ROUTES.hub} className="hover:text-foreground">
+      <Link href={TEMPLATE_ROUTES.library} className="hover:text-foreground">
         Configuração
       </Link>
       {items.map((item, i) => (

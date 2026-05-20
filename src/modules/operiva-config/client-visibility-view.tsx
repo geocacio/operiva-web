@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { ConfigBreadcrumbs } from "@/components/operiva/config-breadcrumbs";
+import { ConfigLoadingSkeleton } from "@/components/operiva/config-loading-skeleton";
 import { ConfigWizardNav } from "@/components/operiva/config-wizard-nav";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
@@ -31,12 +32,16 @@ export function ClientVisibilityView({ templateId }: { templateId: string }) {
   const dispatch = useAppDispatch();
   const draft = useAppSelector((s) => s.template.draftTemplate);
   const { fade } = useMotionConfig();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     dispatch(loadTemplateForEdit(templateId));
+    const t = setTimeout(() => setLoading(false), 300);
+    return () => clearTimeout(t);
   }, [dispatch, templateId]);
 
-  if (!draft) return <p className="text-muted-foreground">Carregando…</p>;
+  if (loading || !draft) return <ConfigLoadingSkeleton />;
 
   const vis = draft.clientVisibility;
   const clientSteps = draft.steps.filter(

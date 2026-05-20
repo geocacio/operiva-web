@@ -1,19 +1,11 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { ClientVisibilityView } from "@/modules/operiva-config/client-visibility-view";
+import { redirect } from "next/navigation";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Visibilidade do cliente — Operiva",
-};
-
-export default async function ClienteTemplatePage({
+export default async function TemplateClientLegacyRedirect({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return (
-    <AppShell title="Cliente" subtitle="O que o cliente enxerga">
-      <ClientVisibilityView templateId={id} />
-    </AppShell>
-  );
+  redirect(TEMPLATE_ROUTES.templateClient(id));
 }

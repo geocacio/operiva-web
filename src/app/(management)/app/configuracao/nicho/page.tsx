@@ -1,14 +1,6 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { NicheSelectionView } from "@/modules/operiva-config/niche-selection-view";
+import { redirect } from "next/navigation";
+import { APP_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Escolher nicho — Operiva",
-};
-
-export default function NichoPage() {
-  return (
-    <AppShell title="Configuração" subtitle="Escolha o nicho operacional">
-      <NicheSelectionView />
-    </AppShell>
-  );
+export default function NichoRedirect() {
+  redirect(APP_ROUTES.configuracoes);
 }

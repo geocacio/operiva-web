@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { CONFIG_ROUTES } from "@/lib/constants";
+import { APP_ROUTES, TEMPLATE_ROUTES } from "@/lib/constants";
 
 const STEPS = [
-  { key: "editar", label: "Fluxo", suffix: "editar" },
-  { key: "equipe", label: "Equipe", suffix: "equipe" },
-  { key: "cliente", label: "Cliente", suffix: "cliente" },
-  { key: "preview", label: "Preview", suffix: "preview" },
+  { key: "editar", label: "Fluxo", href: (id: string) => TEMPLATE_ROUTES.templateEdit(id) },
+  { key: "equipe", label: "Equipe", href: (id: string) => TEMPLATE_ROUTES.templateTeam(id) },
+  { key: "cliente", label: "Cliente", href: (id: string) => TEMPLATE_ROUTES.templateClient(id) },
+  { key: "preview", label: "Preview", href: (id: string) => TEMPLATE_ROUTES.templatePreview(id) },
 ] as const;
 
 export function ConfigWizardNav({ templateId }: { templateId: string }) {
@@ -18,8 +18,8 @@ export function ConfigWizardNav({ templateId }: { templateId: string }) {
   return (
     <div className="mb-6 flex flex-wrap gap-2 rounded-xl border border-white/8 bg-white/[0.02] p-1">
       {STEPS.map((step) => {
-        const href = `/app/configuracao/templates/${templateId}/${step.suffix}`;
-        const active = pathname.includes(`/${step.suffix}`);
+        const href = step.href(templateId);
+        const active = pathname.includes(step.key);
         return (
           <Link
             key={step.key}
@@ -36,7 +36,7 @@ export function ConfigWizardNav({ templateId }: { templateId: string }) {
         );
       })}
       <Link
-        href={`${CONFIG_ROUTES.newService}?template=${templateId}`}
+        href={`${APP_ROUTES.novoServico}?template=${templateId}`}
         className="ml-auto rounded-lg px-4 py-2 text-sm text-emerald-400 hover:bg-emerald-500/10"
       >
         Gerar serviço →

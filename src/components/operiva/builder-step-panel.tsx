@@ -5,7 +5,30 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { IconByName } from "@/components/operiva/icon-by-name";
 import type { FlowStepConfig } from "@/types/flow-step";
+import type { TemplateTeamRole } from "@/types/operiva-template";
+
+const STEP_ICON_OPTIONS = [
+  "ClipboardList",
+  "Search",
+  "ShieldCheck",
+  "Wrench",
+  "Hammer",
+  "Paintbrush",
+  "Sparkles",
+  "Package",
+  "Droplets",
+  "CheckCircle2",
+  "Landmark",
+  "Columns3",
+  "BrickWall",
+  "Zap",
+  "Droplet",
+  "PaintBucket",
+  "ClipboardCheck",
+  "Circle",
+] as const;
 
 function Toggle({
   label,
@@ -31,9 +54,13 @@ function Toggle({
 
 export function BuilderStepPanel({
   step,
+  allSteps,
+  roles,
   onChange,
 }: {
   step: FlowStepConfig | null;
+  allSteps: FlowStepConfig[];
+  roles: TemplateTeamRole[];
   onChange: (step: FlowStepConfig) => void;
 }) {
   if (!step) {
@@ -90,6 +117,60 @@ export function BuilderStepPanel({
                 className="mt-1 border-white/10 bg-white/5"
               />
             </div>
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground">Ícone</label>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {STEP_ICON_OPTIONS.map((icon) => (
+                <button
+                  key={icon}
+                  type="button"
+                  onClick={() => patch({ icon })}
+                  className={`flex size-9 items-center justify-center rounded-lg border transition-colors ${
+                    step.icon === icon
+                      ? "border-indigo-500/50 bg-indigo-500/15"
+                      : "border-white/8 bg-white/[0.02] hover:border-white/15"
+                  }`}
+                  title={icon}
+                >
+                  <IconByName name={icon} className="size-4" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground">Papel responsável</label>
+            <select
+              value={step.responsibleRole ?? ""}
+              onChange={(e) => patch({ responsibleRole: e.target.value || undefined })}
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+            >
+              <option value="">Nenhum</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-muted-foreground">Depende da etapa</label>
+            <select
+              value={step.dependsOnStepId ?? ""}
+              onChange={(e) =>
+                patch({ dependsOnStepId: e.target.value || null })
+              }
+              className="mt-1 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm"
+            >
+              <option value="">Nenhuma (início do fluxo)</option>
+              {allSteps
+                .filter((s) => s.id !== step.id)
+                .map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.order}. {s.name}
+                  </option>
+                ))}
+            </select>
           </div>
           <div>
             <label className="text-xs text-muted-foreground">Status automático</label>

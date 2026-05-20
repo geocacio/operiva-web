@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ConfiguracoesPage() {
   return (
-    <AppShell title="Configurações" subtitle="Preferências da conta (demo)">
+    <AppShell title="Configurações" subtitle="Empresa, nicho, templates e preferências">
       <SettingsView />
     </AppShell>
   );

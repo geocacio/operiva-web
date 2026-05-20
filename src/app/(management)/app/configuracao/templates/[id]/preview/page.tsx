@@ -1,19 +1,11 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { FlowPreviewView } from "@/modules/operiva-config/flow-preview-view";
+import { redirect } from "next/navigation";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Preview do fluxo — Operiva",
-};
-
-export default async function PreviewTemplatePage({
+export default async function TemplatePreviewLegacyRedirect({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return (
-    <AppShell title="Preview" subtitle="Simulação visual do fluxo">
-      <FlowPreviewView templateId={id} />
-    </AppShell>
-  );
+  redirect(TEMPLATE_ROUTES.templatePreview(id));
 }

@@ -9,6 +9,7 @@ import type {
 } from "@/types/operiva-template";
 import { buildStepsFromNames } from "@/flows/build-flow-steps";
 import { mockNiches } from "@/mocks/niches";
+import { persistTemplate, saveCustomTemplates } from "@/lib/template-draft-storage";
 
 interface TemplateState {
   templates: OperivaTemplate[];
@@ -88,6 +89,8 @@ const templateSlice = createSlice({
       state.templates.push(draft);
       state.activeTemplateId = id;
       state.draftTemplate = draft;
+      persistTemplate(draft);
+      saveCustomTemplates(state.templates);
     },
     duplicateTemplateById(state, action: PayloadAction<string>) {
       const source = state.templates.find((t) => t.id === action.payload);
@@ -96,6 +99,8 @@ const templateSlice = createSlice({
       state.templates.push(copy);
       state.activeTemplateId = copy.id;
       state.draftTemplate = copy;
+      persistTemplate(copy);
+      saveCustomTemplates(state.templates);
     },
     updateDraftMeta(
       state,
@@ -191,9 +196,19 @@ const templateSlice = createSlice({
       if (!draft) return;
       draft.updatedAt = new Date().toISOString();
       draft.stepCount = draft.steps.length;
+      const saved = cloneTemplate(draft);
       const idx = state.templates.findIndex((t) => t.id === draft.id);
-      if (idx >= 0) state.templates[idx] = cloneTemplate(draft);
-      else state.templates.push(cloneTemplate(draft));
+      if (idx >= 0) state.templates[idx] = saved;
+      else state.templates.push(saved);
+      persistTemplate(saved);
+      saveCustomTemplates(state.templates);
+    },
+    hydrateCustomTemplates(state, action: PayloadAction<OperivaTemplate[]>) {
+      for (const custom of action.payload) {
+        const idx = state.templates.findIndex((t) => t.id === custom.id);
+        if (idx >= 0) state.templates[idx] = cloneTemplate(custom);
+        else state.templates.push(cloneTemplate(custom));
+      }
     },
   },
 });
@@ -214,6 +229,7 @@ export const {
   setTeamAssignments,
   setClientVisibility,
   saveDraftTemplate,
+  hydrateCustomTemplates,
 } = templateSlice.actions;
 
 export default templateSlice.reducer;

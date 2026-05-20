@@ -1,19 +1,11 @@
-import { AppShell } from "@/components/layout/app-shell";
-import { TemplateBuilderView } from "@/modules/operiva-config/template-builder-view";
+import { redirect } from "next/navigation";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Editor de fluxo — Operiva",
-};
-
-export default async function EditarTemplatePage({
+export default async function TemplateEditLegacyRedirect({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  return (
-    <AppShell title="Builder" subtitle="Editor visual do fluxo">
-      <TemplateBuilderView templateId={id} />
-    </AppShell>
-  );
+  redirect(TEMPLATE_ROUTES.templateEdit(id));
 }

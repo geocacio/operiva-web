@@ -1,18 +1,16 @@
-import { Suspense } from "react";
-import { AppShell } from "@/components/layout/app-shell";
-import { CreateServiceView } from "@/modules/operiva-config/create-service-view";
-import { Skeleton } from "@/components/ui/skeleton";
+import { redirect } from "next/navigation";
+import { APP_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Novo serviço — Operiva",
-};
-
-export default function NovoServicoPage() {
-  return (
-    <AppShell title="Novo serviço" subtitle="Gerar a partir de template">
-      <Suspense fallback={<Skeleton className="h-96 max-w-xl rounded-xl" />}>
-        <CreateServiceView />
-      </Suspense>
-    </AppShell>
-  );
+export default async function NovoServicoLegacyRedirect({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const qs = new URLSearchParams();
+  if (sp.template && typeof sp.template === "string") {
+    qs.set("template", sp.template);
+  }
+  const q = qs.toString();
+  redirect(`${APP_ROUTES.novoServico}${q ? `?${q}` : ""}`);
 }

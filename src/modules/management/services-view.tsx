@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { Briefcase, LayoutGrid, List } from "lucide-react";
+import Link from "next/link";
+import { Briefcase, LayoutGrid, List, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { APP_ROUTES } from "@/lib/constants";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ServicesTable } from "@/components/shared/services-table";
 import { Input } from "@/components/ui/input";
@@ -50,23 +53,31 @@ export function ManagementServicesView() {
           onChange={(e) => dispatch(setFilter(e.target.value))}
           className="max-w-md border-white/10 bg-white/5"
         />
-        <Tabs
-          value={viewMode}
-          onValueChange={(v) =>
-            dispatch(setViewMode(v as "lista" | "kanban"))
-          }
-        >
-          <TabsList className="bg-[#111827]">
-            <TabsTrigger value="lista" className="gap-1.5">
-              <List className="size-3.5" />
-              Lista
-            </TabsTrigger>
-            <TabsTrigger value="kanban" className="gap-1.5">
-              <LayoutGrid className="size-3.5" />
-              Kanban
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild className="gap-2 bg-[#3B82F6] hover:bg-[#2563EB]">
+            <Link href={APP_ROUTES.novoServico}>
+              <Plus className="size-4" />
+              Novo serviço
+            </Link>
+          </Button>
+          <Tabs
+            value={viewMode}
+            onValueChange={(v) =>
+              dispatch(setViewMode(v as "lista" | "kanban"))
+            }
+          >
+            <TabsList className="bg-[#111827]">
+              <TabsTrigger value="lista" className="gap-1.5">
+                <List className="size-3.5" />
+                Lista
+              </TabsTrigger>
+              <TabsTrigger value="kanban" className="gap-1.5">
+                <LayoutGrid className="size-3.5" />
+                Kanban
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
 
       <ServicesFilters

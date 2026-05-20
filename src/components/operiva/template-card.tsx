@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CONFIG_ROUTES } from "@/lib/constants";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 import { useMotionConfig } from "@/hooks/use-motion";
 import type { OperivaTemplate } from "@/types/operiva-template";
 
@@ -67,7 +67,7 @@ export function TemplateCard({
             Usar template
           </Button>
           <Button size="sm" variant="outline" className="gap-1 border-white/10" asChild>
-            <Link href={CONFIG_ROUTES.templatePreview(template.id)}>
+            <Link href={TEMPLATE_ROUTES.templatePreview(template.id)}>
               <Eye className="size-3.5" />
               Visualizar
             </Link>
@@ -82,7 +82,7 @@ export function TemplateCard({
             Duplicar
           </Button>
           <Button size="sm" variant="ghost" className="gap-1" asChild>
-            <Link href={CONFIG_ROUTES.templateEdit(template.id)}>
+            <Link href={TEMPLATE_ROUTES.templateEdit(template.id)}>
               <Pencil className="size-3.5" />
               Editar
             </Link>

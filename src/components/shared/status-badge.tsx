@@ -11,6 +11,7 @@ const statusStyles: Record<ServiceStatus, string> = {
   atrasado: "border-red-500/30 bg-red-500/10 text-red-300",
   concluido: "border-emerald-500/30 bg-emerald-500/10 text-emerald-300",
   em_analise: "border-violet-500/30 bg-violet-500/10 text-violet-300",
+  cancelado: "border-[#6B7280]/30 bg-[#6B7280]/10 text-[#9CA3AF]",
 };
 
 export function StatusBadge({ status }: { status: ServiceStatus }) {

@@ -25,6 +25,7 @@ const columnAccent: Record<ServiceStatus, string> = {
   aguardando_aprovacao: "border-t-[#F59E0B]",
   atrasado: "border-t-[#EF4444]",
   concluido: "border-t-[#10B981]",
+  cancelado: "border-t-[#6B7280]",
 };
 
 export function ServicesKanban({ services }: { services: Service[] }) {

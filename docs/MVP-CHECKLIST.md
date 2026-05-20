@@ -1,0 +1,60 @@
+# Operiva MVP — Checklist
+
+Frontend mockado em pt-BR. Aguardando backend.
+
+## Estrutura do produto (reestruturação)
+
+- [x] Menu principal: Dashboard, Serviços, Templates, Operação, Clientes, Equipe, Relatórios, Configurações
+- [x] Nicho fora do menu diário — identidade em onboarding + Configurações da empresa
+- [x] Onboarding `/app/onboarding` — 5 etapas + `operiva-onboarding-complete` / `operiva-company` no localStorage
+- [x] Biblioteca de templates `/app/templates` (primária)
+- [x] Wizard novo serviço `/app/servicos/novo` — 4 etapas → `/execucao/[id]`
+- [x] Operação `/app/operacao` — Meus | Todos | Prioridades
+- [x] Relatórios `/app/relatorios` — dashboard mock
+- [x] Configurações da empresa `/app/configuracoes`
+- [x] Portal `/portal` login mock → `/portal/meus-servicos`
+- [x] Compartilhar acompanhamento na execução (copiar + WhatsApp mock)
+- [x] Redirects legados `/app/configuracao/*` → novas rotas
+
+## Configuração operacional (templates)
+
+- [x] Biblioteca — cards, usar / visualizar / duplicar / editar / criar do zero
+- [x] Builder `/app/templates/[id]/editar` — sidebar DnD, canvas, painel
+- [x] Equipe `/app/templates/[id]/equipe`
+- [x] Visibilidade cliente `/app/templates/[id]/cliente`
+- [x] Preview `/app/templates/[id]/preview`
+- [x] Skeleton loaders na biblioteca e builder
+
+## Arquitetura
+
+- [x] Redux: `companySlice`, `portalSessionSlice`, `nicheSlice`, `templateSlice`, `services-slice`, `execution-slice`
+- [x] Persistência local (empresa, onboarding, templates customizados, sessão portal)
+- [x] Paleta `#0B0F19`, `#111827`, `#1F2937`, acentos `#3B82F6` / `#06B6D4` / `#10B981`
+- [x] Framer Motion, breadcrumbs em wizards
+
+## Integração end-to-end
+
+- [x] Fluxo: onboarding → dashboard → novo serviço → execução → portal
+- [x] Flags de visibilidade filtram timeline do portal
+- [x] Etapas do template populam modo execução
+- [x] `cloneTemplate` (sem `structuredClone` em templates)
+
+## Pendente / fora do escopo MVP
+
+- [ ] Autenticação real, SMS, QR code
+- [ ] Backend, API, realtime
+- [ ] Nichos Assistência técnica e Energia solar (cards “em breve” no onboarding)
+- [ ] Timeline no menu (rota `/app/timeline` mantida mas removida do menu)
+
+## Fluxo de teste
+
+1. Limpar `localStorage` (ou Configurações → Resetar onboarding)
+2. `/app/onboarding` → empresa → Funilaria → templates → equipe → concluir
+3. `/app` dashboard → `/app/templates` → editar ou usar template
+4. `/app/servicos/novo` → cliente → template → config → criar → `/execucao/svc-…`
+5. Na execução: **Compartilhar acompanhamento** → link portal
+6. `/portal` → login mock → `/portal/meus-servicos` → abrir serviço
+7. `/portal/[token]` — detalhe com visibilidade do template
+8. `/app/operacao` — abas Meus / Prioridades
+9. `/app/relatorios` — métricas mock
+10. Rotas antigas: `/app/configuracao/templates?nicho=funilaria` redireciona para `/app/templates`

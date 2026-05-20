@@ -1,26 +1,14 @@
-import { Suspense } from "react";
-import { AppShell } from "@/components/layout/app-shell";
-import { TemplateLibraryView } from "@/modules/operiva-config/template-library-view";
-import { Skeleton } from "@/components/ui/skeleton";
+import { redirect } from "next/navigation";
+import { TEMPLATE_ROUTES } from "@/lib/constants";
 
-export const metadata = {
-  title: "Biblioteca de templates — Operiva",
-};
-
-export default function TemplatesPage() {
-  return (
-    <AppShell title="Templates" subtitle="Biblioteca por nicho">
-      <Suspense
-        fallback={
-          <div className="grid gap-4 md:grid-cols-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <Skeleton key={i} className="h-72 rounded-xl" />
-            ))}
-          </div>
-        }
-      >
-        <TemplateLibraryView />
-      </Suspense>
-    </AppShell>
-  );
+export default async function TemplatesLegacyRedirect({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = await searchParams;
+  const qs = new URLSearchParams();
+  if (sp.nicho && typeof sp.nicho === "string") qs.set("nicho", sp.nicho);
+  const q = qs.toString();
+  redirect(`${TEMPLATE_ROUTES.library}${q ? `?${q}` : ""}`);
 }
