@@ -12,6 +12,7 @@ import nicheReducer from "./slices/niche-slice";
 import templateReducer from "./slices/template-slice";
 import companyReducer from "./slices/company-slice";
 import portalSessionReducer from "./slices/portal-session-slice";
+import insightsReducer from "./slices/insights-slice";
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,7 @@ export const store = configureStore({
     team: teamReducer,
     clients: clientsReducer,
     ui: uiReducer,
+    insights: insightsReducer,
   },
 });
 

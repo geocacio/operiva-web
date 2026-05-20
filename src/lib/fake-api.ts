@@ -11,7 +11,9 @@ import {
   mockWeeklyChart,
   getMockExecution,
   getMockPortal,
+  getInsightsData,
 } from "@/mocks";
+import type { InsightsPeriod } from "@/types/insights";
 import type { ServiceExecution } from "@/types/execution";
 import type { ClientPortalData } from "@/types/portal";
 import type {
@@ -73,6 +75,8 @@ export const fakeApi = {
   getWeeklyChart: () => simulate<ChartDataPoint[]>(mockWeeklyChart),
   getStatusDistribution: () =>
     simulate<ChartDataPoint[]>(mockStatusDistribution),
+  getInsights: (period: InsightsPeriod) =>
+    simulate(getInsightsData(period), 550),
   markNotificationRead: async (id: string) => {
     await delay(200);
     const n = mockNotifications.find((x) => x.id === id);

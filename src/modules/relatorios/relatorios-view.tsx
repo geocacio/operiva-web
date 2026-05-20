@@ -1,73 +1,33 @@
 "use client";
 
-import { BarChart3, CheckCircle2, Clock, TrendingUp } from "lucide-react";
-import { KpiCard } from "@/components/shared/kpi-card";
-import { SimpleBarChart } from "@/components/shared/simple-bar-chart";
+import Link from "next/link";
+import { ArrowRight, BarChart3, Sparkles } from "lucide-react";
 import { GlassCard } from "@/components/shared/glass-card";
-import {
-  mockKpis,
-  mockStatusDistribution,
-  mockWeeklyChart,
-} from "@/mocks";
+import { APP_ROUTES } from "@/lib/constants";
 
 export function RelatoriosView() {
   return (
-    <div className="space-y-8">
-      <p className="text-sm text-muted-foreground">
-        Métricas simuladas — dados reais após integração com backend.
-      </p>
-
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {mockKpis.map((kpi, i) => (
-          <KpiCard key={kpi.label} kpi={kpi} delay={i * 0.05} />
-        ))}
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        <SimpleBarChart
-          title="Serviços por semana"
-          data={mockWeeklyChart}
-        />
-
-        <GlassCard className="p-6">
-          <div className="mb-4 flex items-center gap-2">
-            <BarChart3 className="size-5 text-[#10B981]" />
-            <h3 className="font-semibold">Distribuição por status</h3>
-          </div>
-          <ul className="space-y-3">
-            {mockStatusDistribution.map((item) => (
-              <li key={item.label} className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">{item.label}</span>
-                <span className="font-medium">{item.value}%</span>
-              </li>
-            ))}
-          </ul>
-        </GlassCard>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        <GlassCard className="flex items-center gap-4 p-5">
-          <CheckCircle2 className="size-10 text-[#10B981]" />
-          <div>
-            <p className="text-2xl font-semibold">94%</p>
-            <p className="text-xs text-muted-foreground">SLA no prazo (mock)</p>
-          </div>
-        </GlassCard>
-        <GlassCard className="flex items-center gap-4 p-5">
-          <Clock className="size-10 text-[#F59E0B]" />
-          <div>
-            <p className="text-2xl font-semibold">2,4d</p>
-            <p className="text-xs text-muted-foreground">Tempo médio por etapa</p>
-          </div>
-        </GlassCard>
-        <GlassCard className="flex items-center gap-4 p-5">
-          <BarChart3 className="size-10 text-[#06B6D4]" />
-          <div>
-            <p className="text-2xl font-semibold">18</p>
-            <p className="text-xs text-muted-foreground">Aprovações esta semana</p>
-          </div>
-        </GlassCard>
-      </div>
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <GlassCard className="max-w-lg p-8 text-center">
+        <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/15 text-emerald-400">
+          <Sparkles className="size-7" />
+        </div>
+        <h2 className="mt-6 text-xl font-semibold">
+          Relatórios migraram para Insights
+        </h2>
+        <p className="mt-3 text-sm text-muted-foreground">
+          Métricas, gargalos, ranking e copiloto operacional agora vivem em
+          Operiva Insights — visual premium e leitura em 30 segundos.
+        </p>
+        <Link
+          href={APP_ROUTES.insights}
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-emerald-600 to-cyan-600 px-5 py-2.5 text-sm font-medium text-white shadow-[0_0_24px_rgba(16,185,129,0.2)] hover:opacity-95"
+        >
+          <BarChart3 className="size-4" />
+          Abrir Insights
+          <ArrowRight className="size-4" />
+        </Link>
+      </GlassCard>
     </div>
   );
 }

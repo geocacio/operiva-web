@@ -22,6 +22,7 @@ export const APP_NAV = [
   { href: "/app/operacao", label: "Operação", icon: "Zap" },
   { href: "/app/clientes", label: "Clientes", icon: "Building2" },
   { href: "/app/equipe", label: "Equipe", icon: "Users" },
+  { href: "/app/insights", label: "Insights", icon: "Sparkles" },
   { href: "/app/relatorios", label: "Relatórios", icon: "BarChart3" },
   { href: "/app/configuracoes", label: "Configurações", icon: "Settings" },
 ] as const;
@@ -54,6 +55,7 @@ export const APP_ROUTES = {
   servicos: "/app/servicos",
   novoServico: "/app/servicos/novo",
   operacao: "/app/operacao",
+  insights: "/app/insights",
   relatorios: "/app/relatorios",
   configuracoes: "/app/configuracoes",
   portalLogin: "/portal",

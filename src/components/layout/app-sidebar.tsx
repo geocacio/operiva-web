@@ -9,6 +9,7 @@ import {
   Layers,
   LayoutDashboard,
   Settings,
+  Sparkles,
   Users,
   Zap,
 } from "lucide-react";
@@ -23,6 +24,7 @@ const iconMap = {
   Users,
   Building2,
   BarChart3,
+  Sparkles,
   Settings,
 } as const;
 

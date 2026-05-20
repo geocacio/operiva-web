@@ -15,3 +15,4 @@ export {
 export { mockNiches, getNicheById } from "./niches";
 export { mockTemplates, getTemplateById, getTemplatesByNiche } from "./templates";
 export { configTeamRoles, getRolesForNiche } from "./config-teams";
+export { getInsightsData, insightsMockByPeriod } from "./insights";

@@ -4,13 +4,14 @@ Frontend mockado em pt-BR. Aguardando backend.
 
 ## Estrutura do produto (reestruturação)
 
-- [x] Menu principal: Dashboard, Serviços, Templates, Operação, Clientes, Equipe, Relatórios, Configurações
+- [x] Menu principal: Dashboard, Serviços, Templates, Operação, Clientes, Equipe, Insights, Relatórios, Configurações
 - [x] Nicho fora do menu diário — identidade em onboarding + Configurações da empresa
 - [x] Onboarding `/app/onboarding` — 5 etapas + `operiva-onboarding-complete` / `operiva-company` no localStorage
 - [x] Biblioteca de templates `/app/templates` (primária)
 - [x] Wizard novo serviço `/app/servicos/novo` — 4 etapas → `/execucao/[id]`
 - [x] Operação `/app/operacao` — Meus | Todos | Prioridades
-- [x] Relatórios `/app/relatorios` — dashboard mock
+- [x] Insights `/app/insights` — copiloto operacional (mock, pt-BR)
+- [x] Relatórios `/app/relatorios` — redireciona para Insights (link)
 - [x] Configurações da empresa `/app/configuracoes`
 - [x] Portal `/portal` login mock → `/portal/meus-servicos`
 - [x] Compartilhar acompanhamento na execução (copiar + WhatsApp mock)
@@ -27,7 +28,7 @@ Frontend mockado em pt-BR. Aguardando backend.
 
 ## Arquitetura
 
-- [x] Redux: `companySlice`, `portalSessionSlice`, `nicheSlice`, `templateSlice`, `services-slice`, `execution-slice`
+- [x] Redux: `companySlice`, `portalSessionSlice`, `nicheSlice`, `templateSlice`, `services-slice`, `execution-slice`, `insightsSlice`
 - [x] Persistência local (empresa, onboarding, templates customizados, sessão portal)
 - [x] Paleta `#0B0F19`, `#111827`, `#1F2937`, acentos `#3B82F6` / `#06B6D4` / `#10B981`
 - [x] Framer Motion, breadcrumbs em wizards
@@ -38,6 +39,22 @@ Frontend mockado em pt-BR. Aguardando backend.
 - [x] Flags de visibilidade filtram timeline do portal
 - [x] Etapas do template populam modo execução
 - [x] `cloneTemplate` (sem `structuredClone` em templates)
+
+## Operiva Insights
+
+- [x] Rota `/app/insights` e item no menu (entre Equipe e Relatórios)
+- [x] Mock `mocks/insights.ts` — funilaria/construção, pt-BR
+- [x] Operiva Score 84/100 com breakdown (velocidade, organização, atrasos, SLA…)
+- [x] KPIs: saúde operacional, serviços em risco, tempo médio, eficiência
+- [x] Gargalos por etapa (tabela)
+- [x] Heatmap CSS (equipes × etapas)
+- [x] Insights automáticos (positivo / crítico / operacional)
+- [x] Análise de fluxo Recepção → Entrega
+- [x] Ranking equipes e colaboradores
+- [x] Tendências semana/mês (comparação)
+- [x] Abas período Hoje | Semana | Mês (Redux `insightsSlice`)
+- [x] Framer Motion + `useReducedMotion`, skeleton no carregamento
+- [x] `InsightCard` reutilizável em `components/operiva/`
 
 ## Pendente / fora do escopo MVP
 
@@ -56,5 +73,6 @@ Frontend mockado em pt-BR. Aguardando backend.
 6. `/portal` → login mock → `/portal/meus-servicos` → abrir serviço
 7. `/portal/[token]` — detalhe com visibilidade do template
 8. `/app/operacao` — abas Meus / Prioridades
-9. `/app/relatorios` — métricas mock
-10. Rotas antigas: `/app/configuracao/templates?nicho=funilaria` redireciona para `/app/templates`
+9. `/app/insights` — copiloto, score, heatmap, ranking (trocar Hoje/Semana/Mês)
+10. `/app/relatorios` — link para Insights
+11. Rotas antigas: `/app/configuracao/templates?nicho=funilaria` redireciona para `/app/templates`
