@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  Workflow,
   Zap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ import { APP_NAV } from "@/lib/constants";
 const iconMap = {
   LayoutDashboard,
   Briefcase,
+  Workflow,
   GitBranch,
   Users,
   Building2,

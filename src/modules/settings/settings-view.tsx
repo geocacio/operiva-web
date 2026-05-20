@@ -1,6 +1,8 @@
 "use client";
 
-import { Bell, Palette, Shield, User } from "lucide-react";
+import Link from "next/link";
+import { Bell, Palette, Shield, User, Workflow } from "lucide-react";
+import { CONFIG_ROUTES } from "@/lib/constants";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +62,20 @@ export function SettingsView() {
         <p className="text-sm text-muted-foreground">
           Tema escuro premium ativo. Personalização de marca em breve.
         </p>
+      </GlassCard>
+
+      <GlassCard className="p-6">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <Workflow className="size-4 text-indigo-400" />
+          Configuração operacional
+        </div>
+        <Separator className="my-4 bg-white/8" />
+        <p className="text-sm text-muted-foreground">
+          Nichos, templates de fluxo, equipes e visibilidade do portal do cliente.
+        </p>
+        <Button asChild className="mt-4 bg-indigo-600 hover:bg-indigo-500">
+          <Link href={CONFIG_ROUTES.hub}>Abrir hub de configuração</Link>
+        </Button>
       </GlassCard>
 
       <GlassCard className="p-6">

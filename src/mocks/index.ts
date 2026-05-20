@@ -12,3 +12,6 @@ export {
   mockWeeklyChart,
   mockStatusDistribution,
 } from "./dashboard";
+export { mockNiches, getNicheById } from "./niches";
+export { mockTemplates, getTemplateById, getTemplatesByNiche } from "./templates";
+export { configTeamRoles, getRolesForNiche } from "./config-teams";

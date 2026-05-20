@@ -13,6 +13,12 @@ export function getPortalSlug(serviceId: string): string {
   return SERVICE_PORTAL_SLUGS[serviceId] ?? serviceId;
 }
 
+export function getPortalTokenForService(serviceId: string): string {
+  const slug = `svc-${serviceId.replace(/\D/g, "").slice(-8) || Date.now().toString(36)}`;
+  SERVICE_PORTAL_SLUGS[serviceId] = slug;
+  return slug;
+}
+
 export function getPortalHref(serviceId: string): string {
   return `/portal/${getPortalSlug(serviceId)}`;
 }

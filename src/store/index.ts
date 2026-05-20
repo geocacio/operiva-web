@@ -8,12 +8,16 @@ import timelineReducer from "./slices/timeline-slice";
 import uiReducer from "./slices/ui-slice";
 import executionReducer from "./slices/execution-slice";
 import clientPortalReducer from "./slices/client-portal-slice";
+import nicheReducer from "./slices/niche-slice";
+import templateReducer from "./slices/template-slice";
 
 export const store = configureStore({
   reducer: {
     services: servicesReducer,
     execution: executionReducer,
     clientPortal: clientPortalReducer,
+    niche: nicheReducer,
+    template: templateReducer,
     notifications: notificationsReducer,
     dashboard: dashboardReducer,
     timeline: timelineReducer,

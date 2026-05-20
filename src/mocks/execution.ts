@@ -186,7 +186,20 @@ const executionByService: Record<string, ServiceExecution> = {
   s3: solarExecution,
 };
 
+const templateExecutions: Record<string, ServiceExecution> = {};
+
+export function registerTemplateExecution(
+  serviceId: string,
+  execution: ServiceExecution
+) {
+  templateExecutions[serviceId] = execution;
+  executionByService[serviceId] = execution;
+}
+
 export function getMockExecution(serviceId: string): ServiceExecution {
+  if (templateExecutions[serviceId]) {
+    return structuredClone(templateExecutions[serviceId]);
+  }
   if (executionByService[serviceId]) {
     return structuredClone(executionByService[serviceId]);
   }

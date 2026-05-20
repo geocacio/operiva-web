@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { ExternalLink, Play } from "lucide-react";
+import { ExternalLink, Play, Workflow } from "lucide-react";
+import { CONFIG_ROUTES } from "@/lib/constants";
 import { ActivityFeed } from "@/components/shared/activity-feed";
 import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import { AlertsPanel } from "@/components/shared/alerts-panel";
@@ -41,6 +42,25 @@ export function DashboardView() {
 
   return (
     <div className="space-y-6">
+      <section className="rounded-xl border border-indigo-500/20 bg-gradient-to-r from-indigo-950/40 to-[#0B0F19] p-4 sm:p-5">
+        <p className="text-xs font-medium uppercase tracking-wide text-indigo-300">
+          Configuração operacional
+        </p>
+        <h2 className="mt-1 text-lg font-semibold">
+          Monte seu fluxo e gere serviços em minutos
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Funilaria ou construção civil — templates, builder, equipe e portal do cliente.
+        </p>
+        <Link
+          href={CONFIG_ROUTES.hub}
+          className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
+        >
+          <Workflow className="size-4" />
+          Abrir configuração
+        </Link>
+      </section>
+
       {featured && (
         <section className="rounded-xl border border-[#3B82F6]/20 bg-gradient-to-r from-[#111827] to-[#0B0F19] p-4 sm:p-5">
           <p className="text-xs font-medium uppercase tracking-wide text-[#06B6D4]">

@@ -56,6 +56,10 @@ export interface Service {
   category: string;
   stepsCompleted: number;
   stepsTotal: number;
+  /** Serviço originado de template operacional */
+  templateId?: string;
+  nicheId?: string;
+  portalToken?: string;
 }
 
 export interface TimelineEvent {

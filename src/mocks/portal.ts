@@ -324,9 +324,19 @@ const portalByToken: Record<string, ClientPortalData> = {
   "svc-194": solarPortal,
 };
 
+const templatePortals: Record<string, ClientPortalData> = {};
+
+export function registerTemplatePortal(token: string, data: ClientPortalData) {
+  templatePortals[token] = data;
+  portalByToken[token] = data;
+}
+
 const LIVE_TEAM = ["Carlos", "Carla", "João", "Marina"] as const;
 
 export function getMockPortal(token: string): ClientPortalData | null {
+  if (templatePortals[token]) {
+    return structuredClone(templatePortals[token]);
+  }
   if (portalByToken[token]) {
     return structuredClone(portalByToken[token]);
   }
