@@ -32,19 +32,28 @@ export function InsightsKpiCards({
   baseDelay?: number;
 }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className="grid min-w-0 gap-4 sm:grid-cols-2 xl:grid-cols-4">
       {kpis.map((kpi, i) => {
         const Icon = icons[kpi.id] ?? Activity;
         const color =
           variantStyles[kpi.variant ?? "default"] ?? variantStyles.default;
 
         return (
-          <GlassCard key={kpi.id} delay={baseDelay + i * 0.06} className="p-5">
+          <GlassCard
+            key={kpi.id}
+            delay={baseDelay + i * 0.06}
+            className="min-w-0 p-4 sm:p-5"
+          >
             <div className="flex items-start justify-between gap-2">
               <p className="text-sm text-muted-foreground">{kpi.label}</p>
               <Icon className={cn("size-4 shrink-0", color)} />
             </div>
-            <p className={cn("mt-2 text-2xl font-semibold tracking-tight", color)}>
+            <p
+              className={cn(
+                "mt-2 text-xl font-semibold tracking-tight sm:text-2xl",
+                color
+              )}
+            >
               {kpi.value}
             </p>
             {kpi.sublabel && (

@@ -84,15 +84,18 @@ export function InsightsView() {
         <InsightsKpiCards kpis={data.kpis} baseDelay={0.05} />
       </motion.section>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <motion.div className="lg:col-span-1" {...sectionMotion}>
+      <div className="grid min-w-0 gap-6 lg:grid-cols-3">
+        <motion.div className="min-w-0 lg:col-span-1" {...sectionMotion}>
           <OperivaScore
             score={data.operivaScore}
             breakdown={data.scoreBreakdown}
             delay={0.1}
           />
         </motion.div>
-        <motion.div className="lg:col-span-2 space-y-6" {...sectionMotion}>
+        <motion.div
+          className="min-w-0 space-y-6 lg:col-span-2"
+          {...sectionMotion}
+        >
           <FlowAnalysis steps={data.flowSteps} delay={0.12} />
           <BottlenecksSection rows={data.bottlenecks} delay={0.14} />
         </motion.div>

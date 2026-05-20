@@ -38,7 +38,7 @@ export function SettingsView() {
   const handleNicheChange = (id: NicheId) => {
     if (
       !confirm(
-        "Alterar o nicho pode afetar templates e fluxos existentes. Continuar (demo)?"
+        "Alterar o nicho adapta templates e linguagem da operação (funilaria ↔ construção). Continuar (demo)?"
       )
     ) {
       return;
@@ -113,7 +113,7 @@ export function SettingsView() {
         <p className="text-sm text-muted-foreground">
           {company.selectedTemplateIds.length > 0
             ? `${company.selectedTemplateIds.length} templates selecionados no onboarding.`
-            : "Gerencie a biblioteca de fluxos da empresa."}
+            : "Fluxos visuais da sua operação — etapas, equipe e visibilidade do cliente."}
         </p>
         <Button asChild className="mt-4 bg-[#3B82F6] hover:bg-[#2563EB]">
           <Link href={TEMPLATE_ROUTES.library}>Abrir biblioteca</Link>

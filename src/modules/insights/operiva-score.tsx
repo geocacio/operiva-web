@@ -22,13 +22,17 @@ export function OperivaScore({
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <GlassCard delay={delay} className="p-6">
+    <GlassCard delay={delay} className="w-full min-w-0 p-4 sm:p-6">
       <h3 className="text-sm font-medium text-muted-foreground">
         Operiva Score
       </h3>
-      <div className="mt-6 flex flex-col items-center gap-8 sm:flex-row sm:items-start">
-        <div className="relative shrink-0">
-          <svg width="128" height="128" className="-rotate-90">
+      <div className="mt-4 flex w-full min-w-0 flex-col items-center gap-6 sm:mt-6 sm:flex-row sm:items-start sm:gap-8">
+        <div className="relative mx-auto shrink-0 sm:mx-0">
+          <svg
+            viewBox="0 0 128 128"
+            className="-rotate-90 h-24 w-24 sm:h-32 sm:w-32"
+            aria-hidden
+          >
             <circle
               cx="64"
               cy="64"
@@ -58,15 +62,17 @@ export function OperivaScore({
             </defs>
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold tabular-nums text-emerald-400">
+            <span className="text-2xl font-bold tabular-nums text-emerald-400 sm:text-3xl">
               {scoreText}
             </span>
-            <span className="text-xs text-muted-foreground">de 100</span>
+            <span className="text-[10px] text-muted-foreground sm:text-xs">
+              de 100
+            </span>
           </div>
         </div>
 
         <motion.ul
-          className="w-full flex-1 space-y-3"
+          className="w-full min-w-0 flex-1 space-y-2.5 sm:space-y-3"
           {...(reduced
             ? {}
             : {

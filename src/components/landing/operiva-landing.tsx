@@ -30,6 +30,7 @@ import {
   Upload,
   Workflow,
 } from "lucide-react";
+import { APP_ROUTES } from "@/lib/constants";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,11 +52,12 @@ import {
 import { SystemMockupsSection } from "./system-mockups";
 
 const PROBLEMS_BEFORE = [
-  "Cliente ligando todo dia perguntando andamento",
-  "Informações perdidas no WhatsApp da equipe",
-  "Etapas esquecidas e prazos estourando",
-  "Equipe desalinhada sobre o que fazer agora",
-  "Retrabalho por falta de visibilidade",
+  "Cliente cobrando status no WhatsApp e por telefone",
+  "Informação espalhada em grupos e mensagens perdidas",
+  "Equipe perdida sobre o que fazer agora",
+  "Atrasos que só aparecem quando já viraram crise",
+  "Gargalos invisíveis — ninguém sabe onde a operação trava",
+  "Retrabalho por falta de visibilidade do andamento",
 ] as const;
 
 const PROBLEMS_AFTER = [
@@ -63,7 +65,16 @@ const PROBLEMS_AFTER = [
   "Tudo centralizado: etapas, fotos e mensagens",
   "Cada passo registrado e visível para todos",
   "Equipe sabe exatamente a prioridade do dia",
-  "Operação organizada e profissional",
+  "Gargalos e atrasos aparecem antes de virar problema",
+  "Transparência que gera confiança — operação profissional",
+] as const;
+
+const POSITIONING_PHRASES = [
+  "Seu ERP controla números. A Operiva organiza a operação.",
+  "A camada operacional que faltava na sua empresa.",
+  "Plataforma operacional visual para empresas de serviço.",
+  "Menos caos operacional. Mais clareza.",
+  "Cliente acompanha sozinho. Sua equipe executa melhor.",
 ] as const;
 
 const FLOW_STEPS = [
@@ -151,18 +162,18 @@ const NICHES = [
 ] as const;
 
 const FEATURES = [
-  { icon: Route, title: "Timeline operacional", desc: "Veja cada etapa do serviço em ordem, com datas e responsáveis." },
-  { icon: Zap, title: "Atualizações em tempo real", desc: "Mudou na oficina? O cliente e a equipe veem na hora." },
-  { icon: Upload, title: "Upload de fotos", desc: "Registre visualmente cada etapa — prova e transparência." },
-  { icon: MessageSquare, title: "Comentários", desc: "Converse no contexto certo, sem perder no WhatsApp." },
-  { icon: GitBranch, title: "Fluxos personalizados", desc: "Adapte as etapas ao jeito que sua empresa realmente trabalha." },
-  { icon: Users, title: "Equipes", desc: "Atribua responsáveis e organize quem faz o quê." },
-  { icon: CheckCircle2, title: "Aprovações", desc: "Cliente confirma etapas críticas antes de seguir." },
-  { icon: History, title: "Histórico completo", desc: "Tudo registrado: quem fez, quando e o que aconteceu." },
-  { icon: Bell, title: "Notificações", desc: "Avise equipe e cliente quando algo mudar." },
-  { icon: LayoutDashboard, title: "Painel operacional", desc: "Visão geral de todos os serviços em andamento." },
-  { icon: Eye, title: "Acompanhamento visual", desc: "Interface clara que qualquer pessoa entende." },
-  { icon: Workflow, title: "Controle por etapas", desc: "Nada fica esquecido no meio do caminho." },
+  { icon: Route, title: "Timeline operacional", desc: "Cada etapa do serviço em ordem, com datas e responsáveis — clareza total." },
+  { icon: Eye, title: "Portal do cliente", desc: "Transparência em tempo real: seu cliente acompanha sem ligar nem cobrar." },
+  { icon: Smartphone, title: "Execução em campo", desc: "Modo ultra simples para a equipe atualizar etapas, fotos e comentários no chão de fábrica." },
+  { icon: Sparkles, title: "Insights copiloto", desc: "Gargalos, ranking e recomendações automáticas — leitura em 30 segundos, não BI corporativo." },
+  { icon: Zap, title: "Atualizações em tempo real", desc: "Mudou na operação? Cliente e equipe veem na hora." },
+  { icon: Upload, title: "Registro visual", desc: "Fotos em cada etapa — prova, transparência e confiança." },
+  { icon: GitBranch, title: "Templates de fluxo", desc: "Adapte etapas ao jeito que sua empresa realmente trabalha." },
+  { icon: Users, title: "Equipes e prioridades", desc: "Quem faz o quê, com fila clara do dia." },
+  { icon: CheckCircle2, title: "Aprovações do cliente", desc: "Confirmação em etapas críticas antes de seguir." },
+  { icon: LayoutDashboard, title: "Visão da operação", desc: "Todos os serviços em andamento — organização, não planilha." },
+  { icon: MessageSquare, title: "Comentários no contexto", desc: "Conversa na etapa certa, sem perder no WhatsApp." },
+  { icon: Workflow, title: "Operação por etapas", desc: "Nada fica esquecido entre pedido e entrega." },
 ] as const;
 
 const BENEFITS = [
@@ -178,6 +189,7 @@ const BENEFITS = [
 
 const NAV_LINKS = [
   { href: "#problemas", label: "O problema" },
+  { href: "#posicionamento", label: "Não é ERP" },
   { href: "#como-funciona", label: "Como funciona" },
   { href: "#nichos", label: "Segmentos" },
   { href: "#recursos", label: "Recursos" },
@@ -241,9 +253,12 @@ export function OperivaLanding() {
           <Button
             size="sm"
             className="border-emerald-500/30 bg-emerald-500/15 text-emerald-50 hover:bg-emerald-500/25"
+            asChild
           >
-            Solicitar demonstração
-            <ArrowRight className="size-3.5" />
+            <Link href={APP_ROUTES.onboarding}>
+              Começar agora
+              <ArrowRight className="size-3.5" />
+            </Link>
           </Button>
         </motion.div>
       </header>
@@ -256,7 +271,7 @@ export function OperivaLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <LiveBadge>Plataforma operacional em tempo real</LiveBadge>
+            <LiveBadge>Plataforma operacional visual para empresas de serviço</LiveBadge>
           </motion.div>
 
           <motion.h1
@@ -265,9 +280,9 @@ export function OperivaLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.08 }}
           >
-            Seus clientes não precisam mais{" "}
+            Do caos operacional à{" "}
             <span className="bg-gradient-to-r from-emerald-300 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-              perguntar como está.
+              clareza que todos enxergam.
             </span>
           </motion.h1>
 
@@ -277,10 +292,10 @@ export function OperivaLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.16 }}
           >
-            A Operiva organiza sua operação do dia a dia: etapas visuais,
-            atualizações em tempo real, fotos, aprovações e acompanhamento do
-            cliente — tudo em um só lugar. Finalmente, ordem no caos
-            operacional.
+            Menos caos operacional. Mais clareza. A Operiva é a camada
+            operacional que faltava: etapas visuais, equipe alinhada, insights
+            automáticos e portal onde o cliente acompanha sozinho — sem
+            burocracia de ERP.
           </motion.p>
 
           <motion.div
@@ -292,9 +307,12 @@ export function OperivaLanding() {
             <Button
               size="lg"
               className="h-11 gap-2 border-emerald-500/40 bg-gradient-to-r from-emerald-600 to-emerald-500 px-6 text-white shadow-lg shadow-emerald-950/40 hover:from-emerald-500 hover:to-emerald-400"
+              asChild
             >
-              Solicitar demonstração
-              <ArrowRight className="size-4" />
+              <Link href={APP_ROUTES.onboarding}>
+                Configurar minha operação
+                <ArrowRight className="size-4" />
+              </Link>
             </Button>
             <Button
               variant="outline"
@@ -302,7 +320,7 @@ export function OperivaLanding() {
               className="h-11 border-white/10 bg-white/[0.02] px-6 text-zinc-300 hover:bg-white/[0.06] hover:text-white"
               asChild
             >
-              <Link href="/app">Ver plataforma funcionando</Link>
+              <Link href="/app">Ver plataforma em ação</Link>
             </Button>
           </motion.div>
 
@@ -320,6 +338,50 @@ export function OperivaLanding() {
         <HeroMockup />
       </section>
 
+      {/* Posicionamento — não é ERP */}
+      <section
+        id="posicionamento"
+        className="relative z-10 border-t border-white/[0.06] px-6 py-16 md:px-8"
+      >
+        <motion.div
+          className="mx-auto max-w-6xl"
+          initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <div className="rounded-2xl border border-emerald-500/20 bg-gradient-to-r from-emerald-950/30 via-[#0c0d0f] to-cyan-950/20 px-6 py-8 md:px-10 md:py-10">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-xl">
+                <Badge
+                  variant="outline"
+                  className="mb-3 border-amber-500/30 bg-amber-500/5 text-amber-300"
+                >
+                  Não é ERP
+                </Badge>
+                <h2 className="text-xl font-semibold text-white md:text-2xl">
+                  Seu ERP controla números. A Operiva organiza a operação.
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-zinc-400 md:text-base">
+                  Sem fiscal, estoque ou contabilidade — a Operiva complementa
+                  o que você já usa e entrega transparência do pedido à entrega:
+                  etapas, equipe, fotos, portal do cliente e copiloto operacional.
+                </p>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {POSITIONING_PHRASES.slice(1).map((phrase) => (
+                  <p
+                    key={phrase}
+                    className="rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2 text-xs text-zinc-400"
+                  >
+                    {phrase}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
       {/* Problemas operacionais */}
       <section
         id="problemas"
@@ -329,7 +391,7 @@ export function OperivaLanding() {
           <SectionHeading
             badge="O caos que você conhece"
             title="Sua operação não precisa ser um quebra-cabeça"
-            description="Todo dia é a mesma história: cliente cobrando, equipe perdida, informação espalhada. A Operiva transforma isso em um fluxo claro que todos entendem."
+            description="Cliente cobrando no WhatsApp, equipe perdida, atrasos surpresa e gargalos que ninguém enxerga. A Operiva transforma caos em transparência — um fluxo que todos entendem."
           />
 
           <motion.div
@@ -350,7 +412,7 @@ export function OperivaLanding() {
                     <div>
                       <CardTitle className="text-white">Antes</CardTitle>
                       <CardDescription className="text-red-300/60">
-                        Operação desorganizada
+                        Caos operacional
                       </CardDescription>
                     </div>
                   </div>
@@ -392,7 +454,7 @@ export function OperivaLanding() {
                     <motion.div>
                       <CardTitle className="text-white">Com a Operiva</CardTitle>
                       <CardDescription className="text-emerald-400/70">
-                        Operação sob controle
+                        Transparência e clareza
                       </CardDescription>
                     </motion.div>
                   </div>
@@ -553,7 +615,7 @@ export function OperivaLanding() {
           <SectionHeading
             badge="Recursos da plataforma"
             title="Tudo que sua operação precisa, nada que atrapalha"
-            description="Ferramentas pensadas para quem executa serviços com etapas, equipes e clientes ansiosos — não para escritório burocrático."
+            description="Transparência operacional, portal do cliente, execução em campo e copiloto de insights — nada de fiscal, estoque ou contabilidade."
             align="center"
           />
 
@@ -589,7 +651,7 @@ export function OperivaLanding() {
         </motion.div>
       </section>
 
-      {/* Mockups do sistema */}
+      {/* Mockups da plataforma */}
       <SystemMockupsSection />
 
       {/* Benefícios */}
@@ -698,9 +760,12 @@ export function OperivaLanding() {
             <Button
               size="lg"
               className="h-11 gap-2 border-emerald-500/40 bg-emerald-500 px-6 text-white hover:bg-emerald-400"
+              asChild
             >
-              Começar agora
-              <ArrowRight className="size-4" />
+              <Link href={APP_ROUTES.onboarding}>
+                Começar agora
+                <ArrowRight className="size-4" />
+              </Link>
             </Button>
             <Button
               variant="outline"
@@ -708,7 +773,7 @@ export function OperivaLanding() {
               className="h-11 border-white/10 bg-transparent px-6 text-zinc-300 hover:bg-white/[0.06] hover:text-white"
               asChild
             >
-              <Link href="/app">Explorar o sistema</Link>
+              <Link href="/app">Explorar a plataforma</Link>
             </Button>
           </motion.div>
           <p className="relative mt-6 text-xs text-zinc-600">
@@ -733,7 +798,7 @@ export function OperivaLanding() {
             <div>
               <p className="text-sm font-medium text-white">Operiva</p>
               <p className="text-xs text-zinc-600">
-                Plataforma operacional visual
+                A camada operacional que faltava
               </p>
             </div>
           </div>

@@ -2,25 +2,25 @@ import type { ChartDataPoint, DashboardKpi } from "@/types";
 
 export const mockKpis: DashboardKpi[] = [
   {
-    label: "Serviços ativos",
+    label: "Em operação agora",
     value: 12,
     change: 8,
     trend: "up",
   },
   {
-    label: "Concluídos (mês)",
+    label: "Entregues no período",
     value: 24,
     change: 12,
     trend: "up",
   },
   {
-    label: "Atrasados",
+    label: "Com atraso visível",
     value: 3,
     change: -2,
     trend: "down",
   },
   {
-    label: "Aguardando aprovação",
+    label: "Aguardando cliente",
     value: 5,
     change: 1,
     trend: "neutral",

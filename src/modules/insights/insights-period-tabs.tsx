@@ -18,7 +18,7 @@ export function InsightsPeriodTabs({
 }) {
   return (
     <div
-      className="inline-flex rounded-lg border border-white/10 bg-[#111827]/80 p-1 backdrop-blur-sm"
+      className="flex w-full rounded-lg border border-white/10 bg-[#111827]/80 p-1 backdrop-blur-sm sm:inline-flex sm:w-auto"
       role="tablist"
       aria-label="Período de análise"
     >
@@ -30,7 +30,7 @@ export function InsightsPeriodTabs({
           aria-selected={value === p.id}
           onClick={() => onChange(p.id)}
           className={cn(
-            "rounded-md px-4 py-1.5 text-sm font-medium transition-all",
+            "flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-all sm:flex-none sm:px-4 sm:text-sm",
             value === p.id
               ? "bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 text-emerald-300 shadow-[0_0_16px_rgba(16,185,129,0.15)]"
               : "text-muted-foreground hover:text-foreground"

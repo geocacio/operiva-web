@@ -36,7 +36,7 @@ export function PortalLoginView() {
       <div className="mb-8 text-center">
         <h1 className="text-2xl font-semibold text-[#F9FAFB]">Portal do cliente</h1>
         <p className="mt-2 text-sm text-[#9CA3AF]">
-          Acompanhe seus serviços em tempo real
+          Transparência total — acompanhe cada etapa sem ligar ou cobrar
         </p>
       </div>
 

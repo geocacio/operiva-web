@@ -9,7 +9,7 @@ export default function ServicosPage() {
   return (
     <AppShell
       title="Serviços"
-      subtitle="Lista, kanban e filtros operacionais"
+      subtitle="Cards operacionais — visão clara de cada serviço"
     >
       <ManagementServicesView />
     </AppShell>

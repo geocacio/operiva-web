@@ -45,7 +45,7 @@ export function AppSidebar({ collapsed }: { collapsed?: boolean }) {
         {!collapsed && (
           <div>
             <p className="text-sm font-semibold tracking-tight">Operiva</p>
-            <p className="text-[10px] text-muted-foreground">Painel operacional</p>
+            <p className="text-[10px] text-muted-foreground">Clareza operacional</p>
           </div>
         )}
       </div>

@@ -92,9 +92,9 @@ export function OnboardingWizardView() {
             <Sparkles className="size-5" />
           </div>
           <div>
-            <h1 className="text-xl font-semibold">Bem-vindo à Operiva</h1>
+            <h1 className="text-xl font-semibold">Configure sua operação</h1>
             <p className="text-sm text-[#9CA3AF]">
-              Configure sua empresa em poucos passos
+              Empresa, nicho, templates e equipe — em poucos passos
             </p>
           </div>
         </div>
@@ -233,7 +233,7 @@ export function OnboardingWizardView() {
                   <div>
                     <h3 className="text-lg font-semibold">Tudo pronto!</h3>
                     <p className="text-sm text-[#9CA3AF]">
-                      Sua empresa está configurada para começar.
+                      Sua operação está pronta — clareza desde o primeiro serviço.
                     </p>
                   </div>
                 </div>
@@ -283,7 +283,7 @@ export function OnboardingWizardView() {
               className="gap-2 bg-[#10B981] hover:bg-[#059669]"
               onClick={handleFinish}
             >
-              Ir para o painel
+              Ir para o dashboard
               <ArrowRight className="size-4" />
             </Button>
           )}

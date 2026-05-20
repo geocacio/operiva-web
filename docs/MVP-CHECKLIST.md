@@ -56,6 +56,15 @@ Frontend mockado em pt-BR. Aguardando backend.
 - [x] Framer Motion + `useReducedMotion`, skeleton no carregamento
 - [x] `InsightCard` reutilizável em `components/operiva/`
 
+## Alinhamento estratégico
+
+- [x] Landing vende clareza operacional (não ERP) — hero, dores, antes/depois, faixa “Não é ERP”, recursos operacionais
+- [x] Copy global pt-BR — termos administrativos/fiscais evitados em strings de UI
+- [x] App: menu operacional, dashboard com tagline, serviços em cards, Insights como copiloto, relatórios → Insights
+- [x] Onboarding e configurações: “configure sua operação”, nicho adapta templates (não módulo ERP)
+- [x] Portal: tom de transparência e confiança
+- [x] Documento [POSICIONAMENTO.md](./POSICIONAMENTO.md)
+
 ## Pendente / fora do escopo MVP
 
 - [ ] Autenticação real, SMS, QR code

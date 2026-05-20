@@ -42,6 +42,8 @@ export function DashboardView() {
 
   return (
     <div className="space-y-6">
+      <p className="operiva-tagline">Clareza operacional</p>
+
       <section className="rounded-xl border border-indigo-500/20 bg-gradient-to-r from-indigo-950/40 to-[#0B0F19] p-4 sm:p-5">
         <p className="text-xs font-medium uppercase tracking-wide text-indigo-300">
           Configuração operacional

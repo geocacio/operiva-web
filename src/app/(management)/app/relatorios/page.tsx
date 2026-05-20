@@ -7,7 +7,10 @@ export const metadata = {
 
 export default function RelatoriosPage() {
   return (
-    <AppShell title="Relatórios" subtitle="Métricas operacionais (mock)">
+    <AppShell
+      title="Relatórios"
+      subtitle="Indicadores operacionais — acesse o copiloto em Insights"
+    >
       <RelatoriosView />
     </AppShell>
   );

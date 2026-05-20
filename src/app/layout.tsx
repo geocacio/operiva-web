@@ -15,9 +15,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Operiva — Plataforma Operacional Visual em Tempo Real",
+  title: "Operiva — Plataforma Operacional Visual para Empresas de Serviço",
   description:
-    "Organize sua operação com etapas visuais, atualizações em tempo real, fotos, aprovações e acompanhamento do cliente. Menos ligações, mais controle — para funilarias, obras, assistências e serviços operacionais.",
+    "A camada operacional que faltava na sua empresa. Seu ERP controla números; a Operiva organiza a operação com etapas visuais, portal do cliente e copiloto operacional. Menos caos. Mais clareza.",
 };
 
 export default function RootLayout({

@@ -13,11 +13,12 @@ export function RelatoriosView() {
           <Sparkles className="size-7" />
         </div>
         <h2 className="mt-6 text-xl font-semibold">
-          Relatórios migraram para Insights
+          Clareza operacional vive em Insights
         </h2>
         <p className="mt-3 text-sm text-muted-foreground">
-          Métricas, gargalos, ranking e copiloto operacional agora vivem em
-          Operiva Insights — visual premium e leitura em 30 segundos.
+          Gargalos, ranking, heatmap e copiloto operacional — não relatório
+          corporativo. Operiva Insights entrega leitura em 30 segundos para
+          decidir na operação.
         </p>
         <Link
           href={APP_ROUTES.insights}

@@ -25,7 +25,7 @@ const solarExecution: ServiceExecution = {
     {
       id: "st3",
       name: "Montagem das placas",
-      description: "12 módulos instalados e aterramento verificado.",
+      description: "12 placas instaladas e aterramento verificado.",
       order: 3,
       status: "concluida",
     },

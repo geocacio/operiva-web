@@ -76,7 +76,7 @@ export function SystemMockupsSection() {
         <SectionHeading
           badge="Veja por dentro"
           title="Uma plataforma que parece feita para o seu dia a dia"
-          description="Painel operacional, etapas visuais, aprovações e histórico completo — tudo em um só lugar, bonito e fácil de usar."
+          description="Visão da operação, portal do cliente, execução em campo e insights — clareza visual, sem cara de ERP."
           align="center"
         />
 
@@ -90,8 +90,8 @@ export function SystemMockupsSection() {
           {/* Dashboard */}
           <motion.div variants={fadeUp} className="relative">
             <MockupChrome
-              title="Painel operacional"
-              subtitle="Visão geral · Hoje"
+              title="Clareza operacional"
+              subtitle="Serviços · Hoje"
             >
               <div className="mb-4 grid grid-cols-3 gap-2">
                 {[

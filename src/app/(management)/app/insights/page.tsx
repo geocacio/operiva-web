@@ -9,7 +9,7 @@ export default function InsightsPage() {
   return (
     <AppShell
       title="Insights"
-      subtitle="Inteligência operacional — entenda sua operação em 30 segundos"
+      subtitle="Copiloto operacional — clareza em 30 segundos (mock)"
     >
       <InsightsView />
     </AppShell>

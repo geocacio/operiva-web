@@ -9,7 +9,7 @@ export default function DashboardPage() {
   return (
     <AppShell
       title="Dashboard"
-      subtitle="Visão operacional em tempo real (simulado)"
+      subtitle="Clareza operacional — visão em tempo real (simulado)"
     >
       <ManagementDashboardView />
     </AppShell>

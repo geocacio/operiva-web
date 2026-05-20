@@ -3,7 +3,8 @@
 import { useEffect, useMemo } from "react";
 import { Briefcase } from "lucide-react";
 import { EmptyState } from "@/components/shared/empty-state";
-import { ServicesTable } from "@/components/shared/services-table";
+import { OperationalCard } from "@/components/shared/operational-card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchServices, setFilter } from "@/store/slices/services-slice";
@@ -36,14 +37,24 @@ export function ServicesView() {
         className="max-w-md border-white/10 bg-white/5"
       />
 
-      {filtered.length === 0 && !loading ? (
+      {loading ? (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-48 rounded-xl" />
+          ))}
+        </div>
+      ) : filtered.length === 0 ? (
         <EmptyState
           icon={Briefcase}
           title="Nenhum serviço encontrado"
           description="Ajuste o filtro ou aguarde novos serviços na operação."
         />
       ) : (
-        <ServicesTable services={filtered} loading={loading} />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {filtered.map((s, i) => (
+            <OperationalCard key={s.id} service={s} delay={i * 0.03} />
+          ))}
+        </div>
       )}
     </div>
   );
