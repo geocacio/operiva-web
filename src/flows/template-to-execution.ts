@@ -17,6 +17,9 @@ export function templateStepsToExecution(
         : i === startIndex
           ? "atual"
           : "pendente",
+    addedDuringExecution: false,
+    clientVisible: step.clientVisible,
+    needsApproval: step.needsApproval,
   }));
 }
 
@@ -39,8 +42,8 @@ export function buildExecutionFromTemplate(
       {
         id: `${serviceId}-init`,
         type: "status",
-        title: "Serviço criado a partir do template",
-        description: `«${template.name}» — ${options?.clientName ?? "Cliente"}`,
+        title: "Serviço criado",
+        description: `Plano inicial baseado em «${template.name}» — ${options?.clientName ?? "Cliente"}. As etapas podem ser ajustadas durante a execução.`,
         createdAt: new Date().toISOString(),
       },
     ],
@@ -49,10 +52,12 @@ export function buildExecutionFromTemplate(
         id: `${serviceId}-msg-welcome`,
         from: "sistema",
         authorName: "Operiva",
-        content: `Fluxo «${template.name}» iniciado. ${steps.length} etapas configuradas.`,
+        content: `Serviço iniciado com ${steps.length} etapas do plano. Adicione etapas, sub-etapas ou registre ocorrências conforme necessário.`,
         createdAt: new Date().toISOString(),
       },
     ],
     uploads: [],
+    occurrences: [],
+    approvals: [],
   };
 }

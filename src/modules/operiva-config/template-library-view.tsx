@@ -70,13 +70,19 @@ export function TemplateLibraryView() {
     <div>
       <ConfigBreadcrumbs
         items={[
-          { label: "Templates", href: TEMPLATE_ROUTES.library },
+          { label: "Modelos", href: TEMPLATE_ROUTES.library },
           { label: niche?.name ?? nicheParam },
         ]}
       />
+      <div className="mb-4 rounded-xl border border-indigo-500/15 bg-indigo-500/5 px-4 py-3">
+        <p className="text-xs text-indigo-300">
+          <strong className="font-medium">Modelos de plano inicial</strong> — aceleradores para criação de serviços.
+          Após criar o serviço, ele é totalmente independente: adicione, remova e reordene etapas livremente.
+        </p>
+      </div>
       <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-semibold">Biblioteca de templates</h2>
+          <h2 className="text-2xl font-semibold">Modelos disponíveis</h2>
           <p className="mt-1 text-muted-foreground">
             {filtered.length} modelos para {niche?.name ?? nicheParam}
           </p>

@@ -31,7 +31,7 @@ export interface BottleneckRow {
 export interface HeatmapCell {
   team: string;
   step: string;
-  load: number; // 0-100
+  load: number;
 }
 
 export interface AutoInsight {
@@ -42,12 +42,33 @@ export interface AutoInsight {
   metric?: string;
 }
 
-export interface FlowStep {
+/**
+ * Representa o desempenho de uma etapa operacional.
+ * Renomeado de FlowStep → OperationStep para refletir modelo serviço-cêntrico.
+ */
+export interface OperationStep {
   id: string;
   name: string;
   speed: FlowSpeed;
   avgTime: string;
   servicesCount: number;
+}
+
+/** @deprecated Use OperationStep — alias mantido para compatibilidade */
+export type FlowStep = OperationStep;
+
+export interface OccurrenceStatRow {
+  type: string;
+  count: number;
+  percentOfTotal: number;
+}
+
+export interface OccurrenceStats {
+  totalInPeriod: number;
+  resolved: number;
+  pending: number;
+  byType: OccurrenceStatRow[];
+  mostCommon?: string;
 }
 
 export interface TeamRankingEntry {
@@ -80,10 +101,15 @@ export interface InsightsPeriodData {
   bottlenecks: BottleneckRow[];
   heatmap: HeatmapCell[];
   autoInsights: AutoInsight[];
-  flowSteps: FlowStep[];
+  /** @deprecated Use operationSteps */
+  flowSteps: OperationStep[];
+  /** Desempenho por etapa operacional */
+  operationSteps: OperationStep[];
   teamRanking: TeamRankingEntry[];
   employeeRanking: EmployeeRankingEntry[];
   trends: TrendMetric[];
   healthLabel: string;
   healthStatus: "healthy" | "attention";
+  /** Estatísticas de ocorrências registradas no período */
+  occurrenceStats?: OccurrenceStats;
 }

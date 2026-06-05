@@ -5,6 +5,7 @@ import {
   Camera,
   CheckCircle2,
   Mic,
+  Plus,
   ShieldCheck,
   Video,
 } from "lucide-react";
@@ -13,25 +14,27 @@ import { useMotionConfig } from "@/hooks/use-motion";
 import { cn } from "@/lib/utils";
 
 export type BottomActionId =
+  | "complete"
   | "photo"
   | "video"
   | "audio"
-  | "complete"
-  | "problem"
-  | "approval";
+  | "occurrence"
+  | "approval"
+  | "add-step";
 
 const actions: {
   id: BottomActionId;
   label: string;
   icon: typeof Camera;
-  variant: "primary" | "success" | "danger" | "muted" | "warning";
+  variant: "primary" | "success" | "danger" | "muted" | "warning" | "accent";
 }[] = [
+  { id: "complete", label: "Concluir", icon: CheckCircle2, variant: "success" },
   { id: "photo", label: "Foto", icon: Camera, variant: "primary" },
   { id: "video", label: "Vídeo", icon: Video, variant: "muted" },
   { id: "audio", label: "Áudio", icon: Mic, variant: "muted" },
-  { id: "complete", label: "Concluir", icon: CheckCircle2, variant: "success" },
-  { id: "problem", label: "Problema", icon: AlertTriangle, variant: "danger" },
-  { id: "approval", label: "Aprovar", icon: ShieldCheck, variant: "warning" },
+  { id: "occurrence", label: "Ocorrência", icon: AlertTriangle, variant: "danger" },
+  { id: "approval", label: "Aprovação", icon: ShieldCheck, variant: "warning" },
+  { id: "add-step", label: "+ Trabalho", icon: Plus, variant: "accent" },
 ];
 
 const variantClass: Record<(typeof actions)[number]["variant"], string> = {
@@ -40,6 +43,7 @@ const variantClass: Record<(typeof actions)[number]["variant"], string> = {
   danger: "bg-[#EF4444]/20 text-[#FCA5A5] border border-[#EF4444]/30",
   muted: "bg-[#1F2937] text-[#F9FAFB] border border-[#374151]",
   warning: "bg-[#F59E0B] text-[#0B0F19]",
+  accent: "bg-[#6366F1]/20 text-[#A5B4FC] border border-[#6366F1]/30",
 };
 
 export function ExecutionBottomBar({
@@ -57,10 +61,13 @@ export function ExecutionBottomBar({
       initial={reduced ? false : { y: 24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
     >
-      <motion.div className="mx-auto grid max-w-lg grid-cols-3 gap-2 sm:grid-cols-6">
+      <motion.div className="mx-auto grid max-w-lg grid-cols-4 gap-1.5 sm:grid-cols-7">
         {actions.map((action) => {
           const Icon = action.icon;
-          const disabled = paused && action.id !== "problem";
+          const disabled =
+            paused &&
+            action.id !== "occurrence" &&
+            action.id !== "add-step";
 
           return (
             <motion.button
@@ -69,13 +76,13 @@ export function ExecutionBottomBar({
               disabled={disabled}
               onClick={() => onAction(action.id)}
               className={cn(
-                "flex min-h-[56px] flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-center transition-transform active:scale-95 disabled:opacity-40",
+                "flex min-h-[52px] flex-col items-center justify-center gap-1 rounded-xl px-1 py-2 text-center transition-transform active:scale-95 disabled:opacity-40",
                 variantClass[action.variant]
               )}
               whileTap={reduced ? undefined : { scale: 0.96 }}
             >
-              <Icon className="size-5" strokeWidth={2} />
-              <span className="text-[10px] font-medium leading-none sm:text-xs">
+              <Icon className="size-4 shrink-0" strokeWidth={2} />
+              <span className="text-[9px] font-medium leading-none sm:text-[10px]">
                 {action.label}
               </span>
             </motion.button>

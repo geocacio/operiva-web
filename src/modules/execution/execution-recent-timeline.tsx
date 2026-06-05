@@ -12,22 +12,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useMotionConfig } from "@/hooks/use-motion";
 import { formatRelative } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { ExecutionEvent, ExecutionEventType } from "@/types/execution";
+import type { ExecutionEvent } from "@/types/execution";
 
-const typeConfig: Record<
-  ExecutionEventType,
-  { icon: typeof Camera; className: string }
-> = {
+const typeConfig: Record<string, { icon: typeof Camera; className: string }> = {
   etapa: { icon: CheckCircle2, className: "text-[#10B981]" },
   foto: { icon: Camera, className: "text-[#3B82F6]" },
   video: { icon: Video, className: "text-[#06B6D4]" },
   audio: { icon: Mic, className: "text-[#06B6D4]" },
   status: { icon: CheckCircle2, className: "text-[#9CA3AF]" },
   comentario: { icon: CheckCircle2, className: "text-[#9CA3AF]" },
+  ocorrencia: { icon: AlertTriangle, className: "text-[#F59E0B]" },
   problema: { icon: AlertTriangle, className: "text-[#EF4444]" },
   aprovacao: { icon: Shield, className: "text-[#F59E0B]" },
   pausa: { icon: AlertTriangle, className: "text-[#F59E0B]" },
+  retomada: { icon: CheckCircle2, className: "text-[#10B981]" },
+  etapa_adicionada: { icon: CheckCircle2, className: "text-[#A5B4FC]" },
+  subetapa: { icon: CheckCircle2, className: "text-[#9CA3AF]" },
 };
+
+const defaultConfig = { icon: CheckCircle2, className: "text-[#9CA3AF]" };
 
 const MAX_EVENTS = 4;
 
@@ -45,7 +48,7 @@ export function ExecutionRecentTimeline({ events }: { events: ExecutionEvent[] }
       <ul className="space-y-2">
         <AnimatePresence initial={false}>
           {recent.map((event, i) => {
-            const cfg = typeConfig[event.type];
+            const cfg = typeConfig[event.type] ?? defaultConfig;
             const Icon = cfg.icon;
 
             return (

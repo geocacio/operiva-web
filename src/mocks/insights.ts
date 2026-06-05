@@ -1,4 +1,4 @@
-import type { InsightsPeriod, InsightsPeriodData } from "@/types/insights";
+import type { InsightsPeriod, InsightsPeriodData, OccurrenceStats } from "@/types/insights";
 
 const baseHeatmapTeams = [
   "Funilaria Norte",
@@ -290,6 +290,63 @@ const todayData: InsightsPeriodData = {
       positive: true,
     },
   ],
+  occurrenceStats: {
+    totalInPeriod: 8,
+    resolved: 6,
+    pending: 2,
+    mostCommon: "material",
+    byType: [
+      { type: "Aguardando material", count: 3, percentOfTotal: 37 },
+      { type: "Pendência do cliente", count: 2, percentOfTotal: 25 },
+      { type: "Imprevisto", count: 1, percentOfTotal: 13 },
+      { type: "Retrabalho", count: 1, percentOfTotal: 13 },
+      { type: "Outro", count: 1, percentOfTotal: 12 },
+    ],
+  } satisfies OccurrenceStats,
+  operationSteps: [
+    {
+      id: "recepcao",
+      name: "Recepção",
+      speed: "fast",
+      avgTime: "45min",
+      servicesCount: 12,
+    },
+    {
+      id: "orcamento",
+      name: "Orçamento",
+      speed: "normal",
+      avgTime: "18h",
+      servicesCount: 8,
+    },
+    {
+      id: "funilaria",
+      name: "Funilaria",
+      speed: "normal",
+      avgTime: "1,4 dias",
+      servicesCount: 14,
+    },
+    {
+      id: "pintura",
+      name: "Pintura",
+      speed: "bottleneck",
+      avgTime: "3,2 dias",
+      servicesCount: 11,
+    },
+    {
+      id: "montagem",
+      name: "Montagem",
+      speed: "normal",
+      avgTime: "6h",
+      servicesCount: 9,
+    },
+    {
+      id: "entrega",
+      name: "Entrega",
+      speed: "fast",
+      avgTime: "2h",
+      servicesCount: 6,
+    },
+  ],
 };
 
 const weekData: InsightsPeriodData = {
@@ -363,6 +420,19 @@ const weekData: InsightsPeriodData = {
       positive: true,
     },
   ],
+  occurrenceStats: {
+    totalInPeriod: 31,
+    resolved: 24,
+    pending: 7,
+    mostCommon: "material",
+    byType: [
+      { type: "Aguardando material", count: 11, percentOfTotal: 36 },
+      { type: "Pendência do cliente", count: 8, percentOfTotal: 26 },
+      { type: "Imprevisto", count: 5, percentOfTotal: 16 },
+      { type: "Retrabalho", count: 4, percentOfTotal: 13 },
+      { type: "Outro", count: 3, percentOfTotal: 10 },
+    ],
+  } satisfies OccurrenceStats,
 };
 
 const monthData: InsightsPeriodData = {
@@ -434,6 +504,19 @@ const monthData: InsightsPeriodData = {
       positive: true,
     },
   ],
+  occurrenceStats: {
+    totalInPeriod: 112,
+    resolved: 88,
+    pending: 24,
+    mostCommon: "material",
+    byType: [
+      { type: "Aguardando material", count: 41, percentOfTotal: 37 },
+      { type: "Pendência do cliente", count: 28, percentOfTotal: 25 },
+      { type: "Imprevisto", count: 18, percentOfTotal: 16 },
+      { type: "Retrabalho", count: 15, percentOfTotal: 13 },
+      { type: "Outro", count: 10, percentOfTotal: 9 },
+    ],
+  } satisfies OccurrenceStats,
 };
 
 export const insightsMockByPeriod: Record<InsightsPeriod, InsightsPeriodData> = {

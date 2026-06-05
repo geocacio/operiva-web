@@ -18,7 +18,8 @@ export type PortalTimelineItemType =
   | "etapa"
   | "mensagem"
   | "marco"
-  | "antes_depois";
+  | "antes_depois"
+  | "ocorrencia";
 
 export interface PortalBeforeAfterPair {
   label: string;
@@ -49,16 +50,13 @@ export interface PortalTimelineItem {
   description?: string;
   createdAt: string;
   authorName?: string;
-  /** Celebration milestone (e.g. pintura concluída) */
   celebration?: boolean;
   emoji?: string;
-  /** Emotional micro-moment variant */
   momentVariant?: "success" | "finishing" | "thanks";
   photos?: PortalTimelinePhoto[];
   videoDurationSeconds?: number;
   videoGradient?: string;
   videoPosterLabel?: string;
-  /** Mock watch progress 0–1 for thumbnail bar */
   videoProgress?: number;
   audioDurationSeconds?: number;
   statusTone?: "neutral" | "success" | "info" | "warning";
@@ -66,7 +64,6 @@ export interface PortalTimelineItem {
     before: PortalBeforeAfterPair;
     after: PortalBeforeAfterPair;
   };
-  /** Visual weight in feed — large for hero moments */
   feedSize?: "large" | "compact";
 }
 
@@ -81,7 +78,6 @@ export interface PortalApproval {
   status: "pendente" | "aprovado" | "ajuste_solicitado";
   requestedAt: string;
   note?: string;
-  /** Mock thumbnail for decision context */
   mediaGradient?: string;
   mediaLabel?: string;
 }
@@ -95,12 +91,15 @@ export interface ClientPortalData {
   responsibleName: string;
   serviceTheme?: PortalServiceTheme;
   teamActive?: boolean;
-  /** e.g. "Carlos acabou de enviar uma atualização" */
   liveActivity?: PortalLiveActivity;
   currentJourneyStep: PortalJourneyStep;
   progressPercent: number;
   statusLabel: string;
   lastUpdate: string;
+  /** Próxima etapa visível ao cliente */
+  nextStep?: string;
+  /** Previsão de conclusão (ISO ou texto legível) */
+  estimatedCompletion?: string;
   journeySteps: {
     id: PortalJourneyStep;
     label: string;
@@ -109,5 +108,8 @@ export interface ClientPortalData {
   }[];
   timeline: PortalTimelineItem[];
   media: PortalMediaItem[];
+  /** Aprovação pendente única (mantido para compatibilidade com componente portal-approval-panel) */
   pendingApproval?: PortalApproval;
+  /** Lista completa de aprovações pendentes — pode haver múltiplas em serviços complexos */
+  pendingApprovals?: PortalApproval[];
 }

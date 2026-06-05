@@ -9,11 +9,12 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   addAudio,
   addPhoto,
+  addStep,
   addVideo,
   clearActionFeedback,
   completeStep,
   fetchExecution,
-  reportProblem,
+  registerOccurrence,
   requestApproval,
 } from "@/store/slices/execution-slice";
 import { fetchServices } from "@/store/slices/services-slice";
@@ -26,9 +27,13 @@ import { ExecutionMinimalHeader } from "./execution-minimal-header";
 import { ExecutionRecentTimeline } from "./execution-recent-timeline";
 import { ExecutionUploadPreview } from "./execution-upload-preview";
 import {
-  ReportProblemModal,
+  AddStepModal,
+  RegisterOccurrenceModal,
   RequestApprovalModal,
 } from "./execution-modals";
+import type { OccurrenceEffect, OccurrenceType } from "@/types/occurrence";
+
+type ModalId = "occurrence" | "approval" | "add-step" | null;
 
 export function ExecutionView({ serviceId }: { serviceId: string }) {
   const dispatch = useAppDispatch();
@@ -42,7 +47,7 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
   const loading = useAppSelector((s) => s.execution.loading);
   const feedback = useAppSelector((s) => s.execution.lastActionFeedback);
 
-  const [modal, setModal] = useState<"problem" | "approval" | null>(null);
+  const [modal, setModal] = useState<ModalId>(null);
 
   useEffect(() => {
     dispatch(fetchServices());
@@ -63,8 +68,9 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
 
   const handleBottomAction = useCallback(
     (id: BottomActionId) => {
-      if (!execution || execution.paused) {
-        if (id === "problem") setModal("problem");
+      if (!execution) return;
+
+      if (execution.paused && id !== "occurrence" && id !== "add-step") {
         return;
       }
 
@@ -89,8 +95,11 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
         case "approval":
           setModal("approval");
           break;
-        case "problem":
-          setModal("problem");
+        case "occurrence":
+          setModal("occurrence");
+          break;
+        case "add-step":
+          setModal("add-step");
           break;
       }
     },
@@ -125,7 +134,7 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
   }
 
   return (
-    <div className="min-h-dvh bg-[#0B0F19] pb-28 text-[#F9FAFB]">
+    <div className="min-h-dvh bg-[#0B0F19] pb-32 text-[#F9FAFB]">
       <ExecutionMinimalHeader
         service={service}
         estimatedMinutesRemaining={execution.estimatedMinutesRemaining}
@@ -151,6 +160,7 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
         steps={execution.steps}
         currentStepIndex={execution.currentStepIndex}
         progressPercent={progressPercent}
+        occurrencesCount={execution.occurrences?.length ?? 0}
       />
 
       <ExecutionUploadPreview uploads={execution.uploads} />
@@ -161,18 +171,58 @@ export function ExecutionView({ serviceId }: { serviceId: string }) {
         onAction={handleBottomAction}
       />
 
-      <ReportProblemModal
-        open={modal === "problem"}
+      <RegisterOccurrenceModal
+        open={modal === "occurrence"}
         onOpenChange={(o) => !o && setModal(null)}
-        onConfirm={(description) =>
-          dispatch(reportProblem({ serviceId, description }))
+        onConfirm={({
+          type,
+          title,
+          description,
+          effects,
+          audioDurationSeconds,
+        }: {
+          type: OccurrenceType;
+          title: string;
+          description: string;
+          effects: OccurrenceEffect[];
+          audioDurationSeconds?: number;
+        }) =>
+          dispatch(
+            registerOccurrence({
+              serviceId,
+              type,
+              title,
+              description,
+              effects,
+              audioDurationSeconds,
+            })
+          )
         }
       />
+
       <RequestApprovalModal
         open={modal === "approval"}
         onOpenChange={(o) => !o && setModal(null)}
-        onConfirm={(note) =>
-          dispatch(requestApproval({ serviceId, note: note || undefined }))
+        onConfirm={({ text, audioDurationSeconds }) =>
+          dispatch(
+            requestApproval({
+              serviceId,
+              note: text || undefined,
+              audioDurationSeconds,
+            })
+          )
+        }
+      />
+
+      <AddStepModal
+        open={modal === "add-step"}
+        onOpenChange={(o) => !o && setModal(null)}
+        steps={execution.steps}
+        currentStepIndex={execution.currentStepIndex}
+        onConfirm={({ name, description, position, beforeStepId }) =>
+          dispatch(
+            addStep({ serviceId, name, description, position, beforeStepId })
+          )
         }
       />
     </div>

@@ -28,7 +28,7 @@ const statusConfig: Record<
   },
   pendente_aprovacao: {
     label: "Cliente pendente de aprovação",
-    description: "Aguardando resposta para liberar a próxima etapa.",
+    description: "Aguardando resposta para liberar o próximo trabalho.",
     icon: Hourglass,
     card: "border-[#F59E0B]/30 bg-[#F59E0B]/5",
     iconWrap: "bg-[#F59E0B]/10 text-[#F59E0B]",

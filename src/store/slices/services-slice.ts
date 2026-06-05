@@ -35,6 +35,11 @@ export const fetchServices = createAsyncThunk(
   () => fakeApi.getServices()
 );
 
+/**
+ * Cria um serviço a partir de um modelo (template) como plano inicial.
+ * O serviço criado é TOTALMENTE INDEPENDENTE do template após a criação —
+ * o templateId é apenas uma referência histórica de origem.
+ */
 export const createServiceFromTemplate = createAsyncThunk(
   "services/createFromTemplate",
   async (input: CreateServiceFromTemplateInput, { getState }) => {
@@ -44,7 +49,7 @@ export const createServiceFromTemplate = createAsyncThunk(
       getTemplateById(input.templateId) ??
       state.template.templates.find((t) => t.id === input.templateId);
 
-    if (!template) throw new Error("Template não encontrado");
+    if (!template) throw new Error("Modelo não encontrado");
 
     const serviceId = `svc-${Date.now()}`;
     const portalToken = getPortalTokenForService(serviceId);
@@ -53,7 +58,7 @@ export const createServiceFromTemplate = createAsyncThunk(
     const service: Service = {
       id: serviceId,
       title: input.title,
-      description: input.notes ?? `Criado a partir de «${template.name}»`,
+      description: input.notes ?? `Serviço criado com plano inicial baseado em «${template.name}»`,
       clientId: input.clientId,
       clientName: input.clientName,
       status: "em_andamento",
@@ -110,6 +115,19 @@ const servicesSlice = createSlice({
     addServiceLocally(state, action: PayloadAction<Service>) {
       state.items.unshift(action.payload);
     },
+    updateServiceProgress(
+      state,
+      action: PayloadAction<{ id: string; stepsCompleted: number; stepsTotal: number }>
+    ) {
+      const svc = state.items.find((s) => s.id === action.payload.id);
+      if (!svc) return;
+      svc.stepsCompleted = action.payload.stepsCompleted;
+      svc.stepsTotal = action.payload.stepsTotal;
+      svc.progress = svc.stepsTotal > 0
+        ? Math.round((svc.stepsCompleted / svc.stepsTotal) * 100)
+        : 0;
+      svc.updatedAt = new Date().toISOString();
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -119,16 +137,9 @@ const servicesSlice = createSlice({
       })
       .addCase(fetchServices.fulfilled, (state, action) => {
         state.loading = false;
-        const existingIds = new Set(
-          state.items
-            .filter((s) => s.templateId)
-            .map((s) => s.id)
-        );
-        const fromApi = action.payload.filter((s) => !existingIds.has(s.id));
-        state.items = [
-          ...state.items.filter((s) => s.templateId),
-          ...fromApi,
-        ];
+        const localIds = new Set(state.items.map((s) => s.id));
+        const fromApi = action.payload.filter((s) => !localIds.has(s.id));
+        state.items = [...state.items, ...fromApi];
       })
       .addCase(fetchServices.rejected, (state, action) => {
         state.loading = false;
@@ -148,6 +159,13 @@ const servicesSlice = createSlice({
   },
 });
 
-export const { setFilter, setStatusFilter, setPriorityFilter, setViewMode } =
-  servicesSlice.actions;
+export const {
+  setFilter,
+  setStatusFilter,
+  setPriorityFilter,
+  setViewMode,
+  addServiceLocally,
+  updateServiceProgress,
+} = servicesSlice.actions;
+
 export default servicesSlice.reducer;

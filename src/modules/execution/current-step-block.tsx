@@ -26,10 +26,10 @@ export function CurrentStepBlock({
     <GlassCard className="border-[#1F2937] bg-[#111827]/80 p-5">
       <motion.div className="mb-4 flex items-center justify-between gap-2">
         <p className="text-xs font-medium uppercase tracking-wide text-[#06B6D4]">
-          Etapa atual
+          Trabalho atual
         </p>
         <span className="text-xs text-[#9CA3AF]">
-          {completedCount}/{steps.length} etapas
+          {completedCount}/{steps.length} trabalhos
         </span>
       </motion.div>
 

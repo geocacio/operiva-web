@@ -15,15 +15,19 @@ export const PRIORITY_LABELS: Record<Priority, string> = {
   baixa: "Baixa",
 };
 
+/**
+ * Navegação principal — ordem reflete prioridade: Serviços em primeiro lugar,
+ * Modelos demovidos para posição secundária (acelerador opcional de criação).
+ */
 export const APP_NAV = [
   { href: "/app", label: "Dashboard", icon: "LayoutDashboard" },
   { href: "/app/servicos", label: "Serviços", icon: "Briefcase" },
-  { href: "/app/templates", label: "Templates", icon: "Layers" },
   { href: "/app/operacao", label: "Operação", icon: "Zap" },
   { href: "/app/clientes", label: "Clientes", icon: "Building2" },
   { href: "/app/equipe", label: "Equipe", icon: "Users" },
   { href: "/app/insights", label: "Insights", icon: "Sparkles" },
   { href: "/app/relatorios", label: "Relatórios", icon: "BarChart3" },
+  { href: "/app/templates", label: "Modelos", icon: "Layers" },
   { href: "/app/configuracoes", label: "Configurações", icon: "Settings" },
 ] as const;
 

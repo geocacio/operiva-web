@@ -85,7 +85,7 @@ export function ExecutionHeader({
           className="h-11 shrink-0 gap-2 bg-[#3B82F6] px-5 text-[#F9FAFB] hover:bg-[#2563EB] disabled:opacity-50"
         >
           <Flag className="size-4" />
-          Finalizar etapa
+          Finalizar trabalho
         </Button>
       </motion.div>
     </motion.header>

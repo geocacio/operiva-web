@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowRight, Zap } from "lucide-react";
+import { ArrowRight, TrendingUp } from "lucide-react";
 import { GlassCard } from "@/components/shared/glass-card";
 import { cn } from "@/lib/utils";
-import type { FlowStep, FlowSpeed } from "@/types/insights";
+import type { FlowSpeed, OperationStep } from "@/types/insights";
 
 const speedConfig: Record<
   FlowSpeed,
@@ -28,21 +28,25 @@ const speedConfig: Record<
   },
 };
 
+/**
+ * Exibe desempenho por etapa operacional (renomeado de "Análise de fluxo").
+ * Aceita tanto `OperationStep` quanto o tipo legado `FlowStep` (são o mesmo).
+ */
 export function FlowAnalysis({
   steps,
   delay = 0,
 }: {
-  steps: FlowStep[];
+  steps: OperationStep[];
   delay?: number;
 }) {
   return (
     <GlassCard delay={delay} className="p-6">
       <div className="mb-4 flex items-center gap-2">
-        <Zap className="size-5 text-cyan-400" />
-        <h3 className="font-semibold">Análise de fluxo</h3>
+        <TrendingUp className="size-5 text-cyan-400" />
+        <h3 className="font-semibold">Desempenho por etapa</h3>
       </div>
       <p className="mb-6 text-xs text-muted-foreground">
-        Recepção → Funilaria → Pintura → Entrega — velocidade por etapa
+        Tempo médio e volume de serviços por etapa operacional
       </p>
 
       <div className="overflow-x-auto pb-2">

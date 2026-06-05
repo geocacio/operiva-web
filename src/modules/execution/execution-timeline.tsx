@@ -14,12 +14,9 @@ import { GlassCard } from "@/components/shared/glass-card";
 import { useMotionConfig } from "@/hooks/use-motion";
 import { formatDateTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import type { ExecutionEvent, ExecutionEventType } from "@/types/execution";
+import type { ExecutionEvent } from "@/types/execution";
 
-const typeConfig: Record<
-  ExecutionEventType,
-  { icon: typeof Camera; className: string }
-> = {
+const typeConfig: Record<string, { icon: typeof Camera; className: string }> = {
   etapa: { icon: CheckCircle2, className: "text-[#10B981] bg-[#10B981]/10" },
   foto: { icon: Camera, className: "text-[#3B82F6] bg-[#3B82F6]/10" },
   video: { icon: Video, className: "text-[#06B6D4] bg-[#06B6D4]/10" },
@@ -29,13 +26,22 @@ const typeConfig: Record<
     icon: MessageSquare,
     className: "text-[#9CA3AF] bg-[#1F2937]",
   },
+  ocorrencia: {
+    icon: AlertTriangle,
+    className: "text-[#F59E0B] bg-[#F59E0B]/10",
+  },
   problema: {
     icon: AlertTriangle,
     className: "text-[#EF4444] bg-[#EF4444]/10",
   },
   aprovacao: { icon: Shield, className: "text-[#F59E0B] bg-[#F59E0B]/10" },
   pausa: { icon: PauseCircle, className: "text-[#F59E0B] bg-[#F59E0B]/10" },
+  retomada: { icon: CheckCircle2, className: "text-[#10B981] bg-[#10B981]/10" },
+  etapa_adicionada: { icon: CheckCircle2, className: "text-[#A5B4FC] bg-[#6366F1]/10" },
+  subetapa: { icon: MessageSquare, className: "text-[#9CA3AF] bg-[#1F2937]" },
 };
+
+const defaultTypeConfig = { icon: CheckCircle2, className: "text-[#9CA3AF] bg-[#1F2937]" };
 
 export function ExecutionTimeline({ events }: { events: ExecutionEvent[] }) {
   const { reduced, stagger } = useMotionConfig();
@@ -49,7 +55,7 @@ export function ExecutionTimeline({ events }: { events: ExecutionEvent[] }) {
         <ul className="relative space-y-0">
           <AnimatePresence initial={false}>
             {events.map((event, i) => {
-              const cfg = typeConfig[event.type];
+              const cfg = typeConfig[event.type] ?? defaultTypeConfig;
               const Icon = cfg.icon;
               const isLast = i === events.length - 1;
 

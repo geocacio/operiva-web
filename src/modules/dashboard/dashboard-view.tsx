@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { ExternalLink, Play, Workflow } from "lucide-react";
-import { APP_ROUTES, TEMPLATE_ROUTES } from "@/lib/constants";
+import { ExternalLink, Play, Plus } from "lucide-react";
+import { APP_ROUTES } from "@/lib/constants";
 import { ActivityFeed } from "@/components/shared/activity-feed";
 import { getExecutionHref, getPortalHref } from "@/lib/portal-routes";
 import { AlertsPanel } from "@/components/shared/alerts-panel";
@@ -42,27 +42,37 @@ export function DashboardView() {
 
   return (
     <div className="space-y-6">
-      <p className="operiva-tagline">Clareza operacional</p>
+      <p className="operiva-tagline">O que está acontecendo agora</p>
 
-      <section className="rounded-xl border border-indigo-500/20 bg-gradient-to-r from-indigo-950/40 to-[#0B0F19] p-4 sm:p-5">
-        <p className="text-xs font-medium uppercase tracking-wide text-indigo-300">
-          Configuração operacional
+      {/* Primary CTA — service-centric */}
+      <section className="rounded-xl border border-[#10B981]/20 bg-gradient-to-r from-[#10B981]/10 to-[#0B0F19] p-4 sm:p-5">
+        <p className="text-xs font-medium uppercase tracking-wide text-[#10B981]">
+          Visibilidade operacional
         </p>
         <h2 className="mt-1 text-lg font-semibold">
-          Monte seu fluxo e gere serviços em minutos
+          Crie um serviço e tenha clareza total da operação
         </h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Funilaria ou construção civil — templates, builder, equipe e portal do cliente.
+          Acompanhe cada etapa em tempo real — do início à entrega. O cliente vê tudo pelo portal.
         </p>
-        <Link
-          href={TEMPLATE_ROUTES.library}
-          className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-[#3B82F6] px-4 py-2 text-sm font-medium text-white hover:bg-[#2563EB]"
-        >
-          <Workflow className="size-4" />
-          Ver templates
-        </Link>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            href={APP_ROUTES.novoServico}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#10B981] px-4 py-2 text-sm font-medium text-white hover:bg-[#059669]"
+          >
+            <Plus className="size-4" />
+            Novo serviço
+          </Link>
+          <Link
+            href={APP_ROUTES.servicos}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-[#D1D5DB] hover:bg-white/10"
+          >
+            Ver todos os serviços
+          </Link>
+        </div>
       </section>
 
+      {/* Featured active service */}
       {featured && (
         <section className="rounded-xl border border-[#3B82F6]/20 bg-gradient-to-r from-[#111827] to-[#0B0F19] p-4 sm:p-5">
           <p className="text-xs font-medium uppercase tracking-wide text-[#06B6D4]">
@@ -91,6 +101,7 @@ export function DashboardView() {
         </section>
       )}
 
+      {/* KPIs */}
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => (
@@ -118,13 +129,17 @@ export function DashboardView() {
             </div>
           )}
 
-          <SectionTitle title="Atrasados" count={delayed.length} variant="danger" />
-          {!loading && delayed.length > 0 && (
-            <div className="grid gap-4 md:grid-cols-2">
-              {delayed.map((s, i) => (
-                <OperationalCard key={s.id} service={s} delay={i * 0.05} />
-              ))}
-            </div>
+          {delayed.length > 0 && (
+            <>
+              <SectionTitle title="Atrasados" count={delayed.length} variant="danger" />
+              {!loading && (
+                <div className="grid gap-4 md:grid-cols-2">
+                  {delayed.map((s, i) => (
+                    <OperationalCard key={s.id} service={s} delay={i * 0.05} />
+                  ))}
+                </div>
+              )}
+            </>
           )}
 
           <SectionTitle title="Concluídos recentes" count={completed.length} />

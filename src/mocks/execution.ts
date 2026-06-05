@@ -3,8 +3,11 @@ import type { ServiceExecution } from "@/types/execution";
 
 const solarExecution: ServiceExecution = {
   serviceId: "s3",
+  clientId: "c2",
+  teamId: "t1",
   currentStepIndex: 4,
   estimatedMinutesRemaining: 95,
+  estimatedDeadline: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
   paused: false,
   clientStatus: "pendente_aprovacao",
   steps: [
@@ -14,6 +17,8 @@ const solarExecution: ServiceExecution = {
       description: "Checklist NR e alinhamento com o cliente no local.",
       order: 1,
       status: "concluida",
+      addedDuringExecution: false,
+      clientVisible: true,
     },
     {
       id: "st2",
@@ -21,6 +26,8 @@ const solarExecution: ServiceExecution = {
       description: "Trilhos fixados e inclinação conferida.",
       order: 2,
       status: "concluida",
+      addedDuringExecution: false,
+      clientVisible: true,
     },
     {
       id: "st3",
@@ -28,6 +35,8 @@ const solarExecution: ServiceExecution = {
       description: "12 placas instaladas e aterramento verificado.",
       order: 3,
       status: "concluida",
+      addedDuringExecution: false,
+      clientVisible: true,
     },
     {
       id: "st4",
@@ -35,14 +44,24 @@ const solarExecution: ServiceExecution = {
       description: "Cabos CC/CA e string box finalizados.",
       order: 4,
       status: "concluida",
+      addedDuringExecution: false,
+      clientVisible: true,
     },
     {
       id: "st5",
-      name: "Em Execução",
+      name: "Comissionamento e testes",
       description:
         "Realize testes de tensão, comissionamento do inversor híbrido e registre fotos do quadro final.",
       order: 5,
       status: "atual",
+      addedDuringExecution: false,
+      clientVisible: true,
+      needsApproval: true,
+      subSteps: [
+        { id: "sub1", name: "Teste de tensão CC", done: true, addedAt: "2026-05-18T10:00:00Z" },
+        { id: "sub2", name: "Comissionamento inversor", done: true, addedAt: "2026-05-18T10:00:00Z" },
+        { id: "sub3", name: "Fotos do quadro final", done: false, addedAt: "2026-05-18T10:00:00Z" },
+      ],
     },
     {
       id: "st6",
@@ -50,13 +69,24 @@ const solarExecution: ServiceExecution = {
       description: "Termo de aceite, manual e envio para aprovação do cliente.",
       order: 6,
       status: "pendente",
+      addedDuringExecution: false,
+      clientVisible: true,
+    },
+    {
+      id: "st7",
+      name: "Treinamento do cliente",
+      description: "Demonstração do app de monitoramento e orientações de uso.",
+      order: 7,
+      status: "pendente",
+      addedDuringExecution: true,
+      clientVisible: true,
     },
   ],
   timeline: [
     {
       id: "ex-s3-1",
       type: "status",
-      title: "Serviço iniciado no modo profissional",
+      title: "Serviço iniciado",
       description: "Carla Ribeiro assumiu a execução em campo.",
       createdAt: "2026-05-12T07:15:00Z",
     },
@@ -80,6 +110,20 @@ const solarExecution: ServiceExecution = {
       title: "Inversor conectado",
       description: "Quadro CA energizado — aguardando testes finais.",
       createdAt: "2026-05-18T14:05:00Z",
+    },
+    {
+      id: "ex-s3-occ",
+      type: "ocorrencia",
+      title: "Ocorrência: material faltante",
+      description: "Fio de aterramento chegou com especificação incorreta. Novo pedido realizado.",
+      createdAt: "2026-05-16T09:30:00Z",
+    },
+    {
+      id: "ex-s3-add",
+      type: "etapa_adicionada",
+      title: "Etapa adicionada: Treinamento do cliente",
+      description: "Nova etapa inserida durante a execução do serviço.",
+      createdAt: "2026-05-18T15:00:00Z",
     },
     {
       id: "ex-s3-5",
@@ -121,6 +165,32 @@ const solarExecution: ServiceExecution = {
     },
   ],
   uploads: [],
+  occurrences: [
+    {
+      id: "occ-s3-1",
+      type: "material",
+      title: "Material com especificação incorreta",
+      description: "Fio de aterramento chegou com bitola menor que a especificada. Novo pedido realizado junto ao fornecedor.",
+      effects: ["atraso_prazo"],
+      registeredAt: "2026-05-16T09:30:00Z",
+      registeredByName: "Carla Ribeiro",
+      stepId: "st2",
+      resolved: true,
+      resolvedAt: "2026-05-17T08:00:00Z",
+    },
+  ],
+  approvals: [
+    {
+      id: "ap-s3-1",
+      stepId: "st5",
+      stepName: "Comissionamento e testes",
+      requestedAt: "2026-05-19T10:15:00Z",
+      status: "pendente",
+      note: "Revisão do comissionamento completo. Por favor confirme para liberar entrega.",
+    },
+  ],
+  extraServices: [],
+  scopeChanges: ["Adicionado treinamento do cliente no app de monitoramento conforme solicitado."],
 };
 
 function buildGenericExecution(serviceId: string): ServiceExecution {
@@ -144,6 +214,8 @@ function buildGenericExecution(serviceId: string): ServiceExecution {
       : i === currentIndex
         ? "atual"
         : "pendente") as ServiceExecution["steps"][0]["status"],
+    addedDuringExecution: false as const,
+    clientVisible: true,
   }));
 
   const clientStatus =
@@ -179,6 +251,8 @@ function buildGenericExecution(serviceId: string): ServiceExecution {
       },
     ],
     uploads: [],
+    occurrences: [],
+    approvals: [],
   };
 }
 

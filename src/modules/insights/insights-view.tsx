@@ -96,7 +96,7 @@ export function InsightsView() {
           className="min-w-0 space-y-6 lg:col-span-2"
           {...sectionMotion}
         >
-          <FlowAnalysis steps={data.flowSteps} delay={0.12} />
+          <FlowAnalysis steps={data.operationSteps ?? data.flowSteps} delay={0.12} />
           <BottlenecksSection rows={data.bottlenecks} delay={0.14} />
         </motion.div>
       </div>

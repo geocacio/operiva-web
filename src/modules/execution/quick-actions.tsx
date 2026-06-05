@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 const actions = [
   {
     id: "complete",
-    label: "Concluir etapa",
+    label: "Concluir trabalho",
     icon: CheckCircle2,
     color: "bg-[#10B981] hover:bg-[#059669]",
     text: "text-white",
